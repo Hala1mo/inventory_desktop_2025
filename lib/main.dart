@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:inventory_desktop/providers/ProductsListProvider.dart';
+import 'package:provider/provider.dart';
 
 import 'screens/DashboardPage.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ProductsListProvider()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -21,5 +30,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-
