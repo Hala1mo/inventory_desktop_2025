@@ -41,6 +41,7 @@ dependencies:
   shared_preferences: ^2.5.3
   provider: ^6.1.5
   shimmer: ^3.0.0
+  dropdown_search: ^6.0.2
 
 dev_dependencies:
   flutter_test:
@@ -66,6 +67,7 @@ flutter:
 
   assets:
     - assets/images/erplogo.png
+    - assets/countries+states+cities.json
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

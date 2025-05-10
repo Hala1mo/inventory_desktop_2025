@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../screens/DashboardPage.dart';
+import '../screens/Locations/LocationsPage.dart';
 import '../screens/ProductsPage.dart';
 import '../screens/OrdersPage.dart';
 import '../screens/ReportPage.dart';
@@ -35,6 +36,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           // Navigation buttons
           _NavTab(context, title: 'Dashboard', icon: Icons.dashboard, page: 'dashboard', currentPage: currentPage),
           _NavTab(context, title: 'Inventory', icon: Icons.inventory_2, page: 'inventory', currentPage: currentPage),
+          _NavTab(context, title: 'Locations', icon: Icons.pin_drop, page: 'location', currentPage: currentPage),
           _NavTab(context, title: 'Order', icon: Icons.receipt_long, page: 'order', currentPage: currentPage),
           _NavTab(context, title: 'Report', icon: Icons.bar_chart, page: 'report', currentPage: currentPage),
 
@@ -79,6 +81,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               break;
             case 'inventory':
               nextPage = const ProductsPage();
+              break;
+            case 'location':
+              nextPage = const LocationsPage();
               break;
             case 'order':
               nextPage = const OrdersPage();

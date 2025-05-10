@@ -27,25 +27,10 @@ class _ProductsScreenState extends State<ProductsPage> {
     'price': 'All',
   };
 
-  List<Product> sampleProducts = [];
-
-  void _handleFiltersChange(Map<String, dynamic> filters) {
-    setState(() {
-      currentFilters = filters;
-    });
-
-    // Apply filters to your product list
-    print('Applied filters: $filters');
-    // Example: fetchFilteredProducts(filters);
-  }
-
   Future<void> loadData() async {
     List<Product> products = await productController.getProducts();
     Provider.of<ProductsListProvider>(context, listen: false)
         .setProducts(products);
-    setState(() {
-      sampleProducts = products;
-    });
     print(products);
   }
 
@@ -57,8 +42,6 @@ class _ProductsScreenState extends State<ProductsPage> {
 
   @override
   Widget build(BuildContext context) {
-    ProductsListProvider provider =
-        Provider.of<ProductsListProvider>(context, listen: false);
     return Scaffold(
         backgroundColor: Color(0xFF0F171A),
         appBar: const CustomAppBar(currentPage: 'inventory'),

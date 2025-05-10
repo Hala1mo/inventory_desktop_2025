@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:inventory_desktop/providers/LocationListProvider.dart';
 import 'package:inventory_desktop/providers/ProductsListProvider.dart';
 import 'package:provider/provider.dart';
 
@@ -9,6 +10,8 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ProductsListProvider()),
+        ChangeNotifierProvider(create: (_) => LocationListProvider()),
+
       ],
       child: const MyApp(),
     ),

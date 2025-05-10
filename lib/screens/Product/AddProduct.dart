@@ -11,7 +11,7 @@ import '../../providers/ProductsListProvider.dart';
 import '../../widgets/CustomButton.dart';
 import '../../widgets/CustomButton2.dart';
 import '../../widgets/DropDown.dart';
-import '../../widgets/UploadImageSection.dart';
+
 
 class AddProduct extends StatefulWidget {
   const AddProduct({
