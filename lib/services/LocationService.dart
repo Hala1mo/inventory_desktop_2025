@@ -13,7 +13,7 @@ class LocationService {
 
     print(jsonData);
     final uri = Uri.parse(Url);
-
+    print(jsonData);
     final response = await http.post(
       uri,
       headers: {

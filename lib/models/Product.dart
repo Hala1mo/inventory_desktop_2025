@@ -14,7 +14,6 @@ enum ProductCategory {
   }
 }
 
-
 class Product {
   int? id;
   final String name;
@@ -24,7 +23,7 @@ class Product {
   final ProductCategory category;
   final String imageUrl;
   final ProductStatus status;
-   DateTime? createdAt;
+  DateTime? createdAt;
 
   Product({
     required this.code,
@@ -35,7 +34,7 @@ class Product {
     required this.category,
     required this.imageUrl,
     required this.status,
-     this.createdAt,
+    this.createdAt,
   });
 
   factory Product.fromJson(Map<String, dynamic> json) {
@@ -50,7 +49,8 @@ class Product {
       imageUrl: json['imageUrl'],
       status: ProductStatus.values.firstWhere(
           (e) => e.name.toLowerCase() == json['status'].toLowerCase()),
-      createdAt: json['createdAt'] != null ? DateTime.parse(json['createdAt']) : null,
+      createdAt:
+          json['createdAt'] != null ? DateTime.parse(json['createdAt']) : null,
     );
   }
 

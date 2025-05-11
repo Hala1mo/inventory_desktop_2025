@@ -100,10 +100,9 @@ class _EditProductState extends State<EditProduct> {
       return;
     }
 
-    // Create updated Product object
+
     Product updatedProduct = Product(
       id: widget.product.id,
-      // Keep the original ID
       code: _codeController.text,
       name: _nameController.text,
       price: price,
@@ -111,7 +110,7 @@ class _EditProductState extends State<EditProduct> {
       category: category,
       imageUrl: _imageURLController.text,
       status: isDraft ? ProductStatus.DRAFT : ProductStatus.ACTIVE,
-      createdAt: widget.product.createdAt, // Keep the original creation date
+      createdAt: widget.product.createdAt,
     );
 
     setState(() {
