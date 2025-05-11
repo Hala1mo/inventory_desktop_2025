@@ -83,7 +83,7 @@ class _OrdersPageState extends State<LocationsPage> {
                           ),
                           children: [
                             TextSpan(
-                              text: "  Total Product",
+                              text: "  Total Locations",
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 15,

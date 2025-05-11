@@ -10,6 +10,7 @@ import '../../controllers/LocationController.dart';
 import '../../models/Location.dart';
 import '../../providers/LocationListProvider.dart';
 import '../../widgets/CustomButton.dart';
+import '../../widgets/CustomTextField.dart';
 import '../../widgets/LocationDropDown.dart';
 
 class AddLocation extends StatefulWidget {
@@ -18,10 +19,10 @@ class AddLocation extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _AddProductState createState() => _AddProductState();
+  _AddLocationState createState() => _AddLocationState();
 }
 
-class _AddProductState extends State<AddLocation> {
+class _AddLocationState extends State<AddLocation> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
   final LocationController locationController = LocationController();
@@ -45,13 +46,13 @@ class _AddProductState extends State<AddLocation> {
   @override
   void dispose() {
     _nameController.dispose();
-
+    _addressController.dispose();
     super.dispose();
   }
 
   Future<void> loadCountries() async {
     final String data =
-        await rootBundle.loadString('assets/countries+states+cities.json');
+    await rootBundle.loadString('assets/countries+states+cities.json');
     final List<dynamic> jsonData = json.decode(data);
     setState(() {
       countriesData = jsonData;
@@ -67,7 +68,7 @@ class _AddProductState extends State<AddLocation> {
       selectedState = null;
 
       final countryData = countriesData.firstWhere(
-        (country) => country['name'] == value,
+            (country) => country['name'] == value,
         orElse: () => null,
       );
 
@@ -88,9 +89,10 @@ class _AddProductState extends State<AddLocation> {
   }
 
   Future<void> saveLocation() async {
-    if (_nameController.text.isEmpty || _addressController.text.isEmpty ||
+    if (_nameController.text.isEmpty ||
+        _addressController.text.isEmpty ||
         selectedCountry == null ||
-    selectedState == null) {) {
+        selectedState == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Please fill all fields'),
@@ -103,7 +105,7 @@ class _AddProductState extends State<AddLocation> {
     Location newLocation = Location(
       name: _nameController.text,
       address: _addressController.text,
-      country: selectedState!,
+      country: selectedCountry!,
       city: selectedState!,
     );
 
@@ -112,9 +114,9 @@ class _AddProductState extends State<AddLocation> {
     });
 
     try {
-    bool success = await locationController.addLocation(newLocation);
+      bool success = await locationController.addLocation(newLocation);
 
-  if (success) {
+      if (success) {
         Provider.of<LocationListProvider>(context, listen: false)
             .addLocation(newLocation);
         ScaffoldMessenger.of(context).showSnackBar(
@@ -130,7 +132,7 @@ class _AddProductState extends State<AddLocation> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Error saving product: ${e.toString()}'),
+            content: Text('Error saving location: ${e.toString()}'),
             backgroundColor: Colors.red,
           ),
         );
@@ -151,7 +153,7 @@ class _AddProductState extends State<AddLocation> {
       insetPadding: EdgeInsets.all(20),
       child: Container(
         width: MediaQuery.of(context).size.width * 0.5,
-        height: MediaQuery.of(context).size.height * 0.65,
+        height: MediaQuery.of(context).size.height * 0.7,
         padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
         decoration: BoxDecoration(
           color: Color(0xFF0F171A),
@@ -159,179 +161,80 @@ class _AddProductState extends State<AddLocation> {
         ),
         child: _isLoading
             ? Center(
-                child: CircularProgressIndicator(color: Colors.white),
-              )
+          child: CircularProgressIndicator(color: Colors.white),
+        )
             : Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Header
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Add New Location',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.close, color: Colors.white),
-                        onPressed: () => Navigator.pop(context),
-                      ),
-                    ],
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Header
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Add New Location',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
                   ),
-                  SizedBox(height: 12),
-                  Expanded(
-                    child: _buildTextField(
-                      controller: _nameController,
-                      label: 'Location Name',
-                      hint: 'Enter location name',
-                      icon: Icons.shopping_bag,
-                    ),
-                  ),
-                  LocationDropdown(
-                    items: countries,
-                    labelText: 'Country',
-                    selectedItem: selectedCountry,
-                    onChanged: onCountryChanged,
-                    showSearchBox: true,
-                    maxHeight: 300,
-                    hintText: "Search Country...",
-                  ),
-                  SizedBox(height: 12),
-                  LocationDropdown(
-                    items: states,
-                    labelText: 'City',
-                    selectedItem: selectedState,
-                    onChanged: onStateChanged,
-                    showSearchBox: true,
-                    maxHeight: 300,
-                    hintText: "Search City...",
-                  ),
-                  SizedBox(height: 12),
-                  Expanded(
-                    child: _buildTextField(
-                      controller: _addressController,
-                      label: 'Location address',
-                      hint: 'Enter location address',
-                      icon: Icons.pin_drop_outlined,
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      CustomButton(
-                        text: 'Save Location',
-                        onPressed: () => saveLocation(),
-                      ),
-                    ],
-                  ),
-                ],
+                ),
+                IconButton(
+                  icon: Icon(Icons.close, color: Colors.white),
+                  onPressed: () => Navigator.pop(context),
+                ),
+              ],
+            ),
+            SizedBox(height: 20),
+            CustomTextField(
+              controller: _nameController,
+              label: 'Location Name',
+              hint: 'Enter location name',
+              icon: Icons.location_city,
+            ),
+            SizedBox(height: 16),
+            LocationDropdown(
+              items: countries,
+              labelText: 'Country',
+              selectedItem: selectedCountry,
+              onChanged: onCountryChanged,
+              showSearchBox: true,
+              maxHeight: 300,
+              hintText: "Search Country...",
+            ),
+            SizedBox(height: 16),
+            LocationDropdown(
+              items: states,
+              labelText: 'State/City',
+              selectedItem: selectedState,
+              onChanged: onStateChanged,
+              showSearchBox: true,
+              maxHeight: 300,
+              hintText: "Search State/City...",
+            ),
+            SizedBox(height: 16),
+            Expanded(
+              child: CustomTextField(
+                controller: _addressController,
+                label: 'Location Address',
+                hint: 'Enter location address',
+                icon: Icons.pin_drop_outlined,
+                maxLines:2,
               ),
+            ),
+            SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                CustomButton(
+                  text: 'Save Location',
+                  onPressed: () => saveLocation(),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  Widget _buildTextField({
-    required TextEditingController controller,
-    required String label,
-    required String hint,
-    required IconData icon,
-    TextInputType? keyboardType,
-    String? prefix,
-    int? maxLines,
-  }) {
-    final isMultiline = maxLines != null && maxLines > 1;
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: TextStyle(
-            color: Colors.grey[400],
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        SizedBox(height: 8),
-        Container(
-          decoration: BoxDecoration(
-            color: Color(0xFF1A262D),
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: Colors.grey.shade800),
-          ),
-          child: isMultiline
-              ? Stack(
-                  children: [
-                    TextFormField(
-                      maxLines: maxLines,
-                      controller: controller,
-                      keyboardType: keyboardType ?? TextInputType.multiline,
-                      style: TextStyle(color: Colors.white),
-                      decoration: InputDecoration(
-                        hintText: hint,
-                        hintStyle: TextStyle(color: Colors.grey[500]),
-                        border: InputBorder.none,
-                        contentPadding: EdgeInsets.only(
-                          left: 50,
-                          right: 15,
-                          top: 15,
-                          bottom: 15,
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      left: 15,
-                      top: 15,
-                      child: Icon(
-                        icon,
-                        color: Colors.grey[400],
-                        size: 20,
-                      ),
-                    ),
-                  ],
-                )
-              : Row(
-                  children: [
-                    if (prefix != null)
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 15),
-                        child: Text(
-                          prefix,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    Expanded(
-                      child: TextFormField(
-                        controller: controller,
-                        keyboardType: keyboardType,
-                        style: TextStyle(color: Colors.white),
-                        decoration: InputDecoration(
-                          hintText: hint,
-                          hintStyle: TextStyle(color: Colors.grey[500]),
-                          border: InputBorder.none,
-                          contentPadding: EdgeInsets.symmetric(
-                            horizontal: prefix != null ? 0 : 15,
-                            vertical: 15,
-                          ),
-                          prefixIcon: prefix == null
-                              ? Icon(icon, color: Colors.grey[400], size: 20)
-                              : null,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-        ),
-      ],
-    );
-  }
 }

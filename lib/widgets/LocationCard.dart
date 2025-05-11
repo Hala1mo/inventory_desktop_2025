@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../models/Location.dart';
+import '../screens/Locations/LocationDetails.dart';
 
 class LocationCard extends StatefulWidget {
   final Location location;
@@ -24,13 +25,15 @@ class _LocationCardState extends State<LocationCard> {
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: GestureDetector(
         onTap: widget.onPressed ?? () {
-          // You can add a LocationDetails dialog here if needed
-          // showDialog(
-          //   context: context,
-          //   builder: (BuildContext context) {
-          //     return LocationDetails(location: widget.location);
-          //   },
-          // );
+           print(
+            "fftrh"
+           );
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return LocationDetails(location: widget.location);
+            },
+          );
         },
         child: Container(
           width: 200,

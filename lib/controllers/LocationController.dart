@@ -1,5 +1,6 @@
 import '../models/Location.dart';
 
+import '../models/ProductStock.dart';
 import '../services/LocationService.dart';
 
 class LocationController {
@@ -19,5 +20,10 @@ class LocationController {
 
   Future<bool> deleteLocation(Location location) async {
     return await service.deleteLocation(location);
+  }
+
+
+   Future <List<ProductStock>> getProductsInSpecificLocation(Location location) async {
+    return await service.getProducts(location);
   }
 }

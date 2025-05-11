@@ -9,6 +9,7 @@ import '../../models/Product.dart';
 import '../../providers/ProductsListProvider.dart';
 import '../../widgets/CustomButton.dart';
 import '../../widgets/CustomButton2.dart';
+import '../../widgets/CustomTextField.dart';
 import '../../widgets/DeleteButton.dart';
 import '../../widgets/DropDown.dart';
 
@@ -228,7 +229,7 @@ class _EditProductState extends State<EditProduct> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Expanded(
-                        child: _buildTextField(
+                        child: CustomTextField(
                           controller: _nameController,
                           label: 'Product Name',
                           hint: 'Enter product name',
@@ -237,7 +238,7 @@ class _EditProductState extends State<EditProduct> {
                       ),
                       SizedBox(width: 20),
                       Expanded(
-                        child: _buildTextField(
+                        child: CustomTextField(
                           controller: _codeController,
                           label: 'Product Code',
                           hint: 'Enter product code',
@@ -251,7 +252,7 @@ class _EditProductState extends State<EditProduct> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Expanded(
-                        child: _buildTextField(
+                        child: CustomTextField(
                           controller: _priceController,
                           label: 'Price',
                           hint: 'Enter price',
@@ -291,7 +292,7 @@ class _EditProductState extends State<EditProduct> {
                   ),
 
                   SizedBox(height: 20),
-                  _buildTextField(
+                  CustomTextField(
                     controller: _descriptionController,
                     label: 'Descriptions',
                     hint: 'Enter product description',
@@ -300,7 +301,7 @@ class _EditProductState extends State<EditProduct> {
                   ),
                   SizedBox(height: 20),
                   Expanded(
-                    child: _buildTextField(
+                    child: CustomTextField(
                       controller: _imageURLController,
                       label: 'Image URL',
                       hint: 'Enter image url',
@@ -329,103 +330,4 @@ class _EditProductState extends State<EditProduct> {
     );
   }
 
-  Widget _buildTextField({
-    required TextEditingController controller,
-    required String label,
-    required String hint,
-    required IconData icon,
-    TextInputType? keyboardType,
-    String? prefix,
-    int? maxLines,
-  }) {
-    final isMultiline = maxLines != null && maxLines > 1;
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: TextStyle(
-            color: Colors.grey[400],
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        SizedBox(height: 8),
-        Container(
-          decoration: BoxDecoration(
-            color: Color(0xFF1A262D),
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: Colors.grey.shade800),
-          ),
-          child: isMultiline
-              ? Stack(
-                  children: [
-                    TextFormField(
-                      maxLines: maxLines,
-                      controller: controller,
-                      keyboardType: keyboardType ?? TextInputType.multiline,
-                      style: TextStyle(color: Colors.white),
-                      decoration: InputDecoration(
-                        hintText: hint,
-                        hintStyle: TextStyle(color: Colors.grey[500]),
-                        border: InputBorder.none,
-                        contentPadding: EdgeInsets.only(
-                          left: 50,
-                          right: 15,
-                          top: 15,
-                          bottom: 15,
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      left: 15,
-                      top: 15,
-                      child: Icon(
-                        icon,
-                        color: Colors.grey[400],
-                        size: 20,
-                      ),
-                    ),
-                  ],
-                )
-              : Row(
-                  children: [
-                    if (prefix != null)
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 15),
-                        child: Text(
-                          prefix,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    Expanded(
-                      child: TextFormField(
-                        controller: controller,
-                        keyboardType: keyboardType,
-                        style: TextStyle(color: Colors.white),
-                        decoration: InputDecoration(
-                          hintText: hint,
-                          hintStyle: TextStyle(color: Colors.grey[500]),
-                          border: InputBorder.none,
-                          contentPadding: EdgeInsets.symmetric(
-                            horizontal: prefix != null ? 0 : 15,
-                            vertical: 15,
-                          ),
-                          prefixIcon: prefix == null
-                              ? Icon(icon, color: Colors.grey[400], size: 20)
-                              : null,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-        ),
-      ],
-    );
-  }
 }

@@ -4,6 +4,7 @@ import 'dart:convert';
 import '../AppConstants.dart';
 
 import '../models/Location.dart';
+import '../models/ProductStock.dart';
 
 class LocationService {
   final String Url = '${AppConstants.serverUrl}/api/locations';
@@ -127,4 +128,44 @@ class LocationService {
       return false;
     }
   }
+
+  Future<List<ProductStock>> getProducts(Location location) async {
+      final String getProductsURL ='$Url/${location.id}/inventory';
+    List<ProductStock> products = [];
+    final uri = Uri.parse(getProductsURL);
+
+    final response = await http.get(
+      uri,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    );
+
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      try {
+        if (response.body.isNotEmpty) {
+          final List<dynamic> responseBody = json.decode(response.body);
+          print('Full Response Body: $responseBody');
+
+          products =
+              responseBody.map((item) => ProductStock.fromJson(item)).toList();
+
+          return products;
+        }
+        return [];
+      } catch (e) {
+        print('Error during response parsing: $e');
+        return [];
+      }
+    } else {
+      final Map<String, dynamic> responseBody = json.decode(response.body);
+      print(responseBody);
+      return [];
+    }
+  }
+
+
+
+
 }

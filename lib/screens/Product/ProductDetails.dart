@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:inventory_desktop/screens/Product/EditProduct.dart';
 
 import '../../controllers/productMovementController.dart';
-import '../../models/LocationStock.dart';
+
 import '../../models/Product.dart';
+import '../../models/ProductBalance.dart';
 import '../../widgets/CustomButton.dart';
 
 class ProductDetails extends StatefulWidget {
@@ -20,7 +21,7 @@ class ProductDetails extends StatefulWidget {
 }
 
 class _ProductCardState extends State<ProductDetails> {
-  List<LocationStock> locations = [];
+  List<ProductBalance> locations = [];
   final ScrollController _scrollController = ScrollController();
   ProductMovementController productMovementController =
       ProductMovementController();
@@ -44,7 +45,7 @@ class _ProductCardState extends State<ProductDetails> {
   double counter = 0;
 
   Future<void> loadStockData(Product product) async {
-    List<LocationStock> result =
+    List<ProductBalance> result =
         await productMovementController.fetchStockData(product);
     setState(() {
       locations = result;
@@ -53,7 +54,7 @@ class _ProductCardState extends State<ProductDetails> {
   }
 
   void load() {
-    for (LocationStock location in locations) {
+    for (ProductBalance location in locations) {
       counter += location.quantity;
     }
     setState(() {});
@@ -303,7 +304,7 @@ Widget _buildBasicInfo(String title, String value) {
   );
 }
 
-Widget _buildStock(LocationStock locationStock) {
+Widget _buildStock(ProductBalance productBalance) {
   return Padding(
     padding: EdgeInsets.only(top: 5),
     child: Column(
@@ -313,7 +314,7 @@ Widget _buildStock(LocationStock locationStock) {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              locationStock.name,
+              productBalance.name,
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: 14,
@@ -323,7 +324,7 @@ Widget _buildStock(LocationStock locationStock) {
             ),
             SizedBox(width: 10),
             Text(
-              locationStock.quantity.toString(),
+              productBalance.quantity.toString(),
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: 14,
