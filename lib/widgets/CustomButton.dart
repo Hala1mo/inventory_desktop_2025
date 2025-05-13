@@ -30,12 +30,12 @@ class _CustomButtonState extends State<CustomButton> {
           borderRadius: BorderRadius.circular(8), // Slightly rounded corners
         ),
         elevation: 0, // No shadow
-        minimumSize: const Size(120, 40), // Set minimum size
+        minimumSize: const Size(150, 50), // Set minimum size
       ),
       child: Text(
         widget.text,
         style: const TextStyle(
-          fontSize: 14,
+          fontSize: 16,
           fontWeight: FontWeight.w500,
           color: Color(0xFF0F171A) // White text
         ),

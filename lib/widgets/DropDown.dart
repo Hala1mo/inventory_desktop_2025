@@ -117,7 +117,7 @@ class _DropDownState extends State<DropDown> {
               maxHeight: 250,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(4),
-                color: Color(0xFF1A262D),),
+                color:  Color(0xFF1A262D),),
               offset: const Offset(0, 0),
               scrollbarTheme: ScrollbarThemeData(
                 radius: const Radius.circular(40),

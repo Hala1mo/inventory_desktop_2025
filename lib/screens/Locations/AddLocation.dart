@@ -153,7 +153,7 @@ class _AddLocationState extends State<AddLocation> {
       insetPadding: EdgeInsets.all(20),
       child: Container(
         width: MediaQuery.of(context).size.width * 0.5,
-        height: MediaQuery.of(context).size.height * 0.7,
+        height: MediaQuery.of(context).size.height * 0.75,
         padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
         decoration: BoxDecoration(
           color: Color(0xFF0F171A),

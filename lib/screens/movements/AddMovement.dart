@@ -220,170 +220,171 @@ class _AddMovementState extends State<AddMovement> {
     return Dialog(
       backgroundColor: Colors.transparent,
       insetPadding: EdgeInsets.all(20),
-      child: Container(
-        width: MediaQuery.of(context).size.width * 0.5,
-        height: MediaQuery.of(context).size.height * 0.78,
-        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
-        decoration: BoxDecoration(
-          color: Color(0xFF0F171A),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: _isLoading
-            ? Center(
-                child: CircularProgressIndicator(color: Colors.white),
-              )
-            : Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Header
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Add New Product Movement',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
+      child: SingleChildScrollView(
+        child: Container(
+          width: MediaQuery.of(context).size.width * 0.5,
+          //height: MediaQuery.of(context).size.height * 0.9,
+          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+          decoration: BoxDecoration(
+            color: Color(0xFF0F171A),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: _isLoading
+              ? Center(
+                  child: CircularProgressIndicator(color: Colors.white),
+                )
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Header
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Add New Product Movement',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.close, color: Colors.white),
-                        onPressed: () => Navigator.pop(context),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 20),
+                        IconButton(
+                          icon: Icon(Icons.close, color: Colors.white),
+                          onPressed: () => Navigator.pop(context),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 20),
 
-                  // Movement Type Dropdown
-                  DropDown(
-                    label: "Movement Type",
-                    hint: "Select Movement Type",
-                    icon: Icons.swap_horiz,
-                    items: MovementType.values.map((e) => e.label).toList(),
-                    selectedItem: _selectedMovement != null
-                        ? MovementType.values
-                            .firstWhere((e) => e.name == _selectedMovement)
-                            .label
-                        : null,
-                    onChanged: (String? selectedLabel) {
-                      if (selectedLabel != null) {
-                        final matched = MovementType.values.firstWhere((e) =>
-                            e.label.toLowerCase() ==
-                            selectedLabel.toLowerCase());
-                        setState(() {
-                          _selectedMovement = matched.name;
-                          if (matched != MovementType.TRANSFER) {
-                            if (matched == MovementType.IN) {
-                              selectedFromLocation = null;
-                            } else if (matched == MovementType.OUT) {
-                              selectedToLocation = null;
+                    // Movement Type Dropdown
+                    DropDown(
+                      label: "Movement Type",
+                      hint: "Select Movement Type",
+                      icon: Icons.swap_horiz,
+                      items: MovementType.values.map((e) => e.label).toList(),
+                      selectedItem: _selectedMovement != null
+                          ? MovementType.values
+                              .firstWhere((e) => e.name == _selectedMovement)
+                              .label
+                          : null,
+                      onChanged: (String? selectedLabel) {
+                        if (selectedLabel != null) {
+                          final matched = MovementType.values.firstWhere((e) =>
+                              e.label.toLowerCase() ==
+                              selectedLabel.toLowerCase());
+                          setState(() {
+                            _selectedMovement = matched.name;
+                            if (matched != MovementType.TRANSFER) {
+                              if (matched == MovementType.IN) {
+                                selectedFromLocation = null;
+                              } else if (matched == MovementType.OUT) {
+                                selectedToLocation = null;
+                              }
                             }
-                          }
+                          });
+                        }
+                      },
+                    ),
+                    SizedBox(height: 16),
+
+                    // Product Dropdown
+                    ProductDropDown(
+                      items: productsData,
+                      label: 'Product',
+                      selectedItem: selectedProduct,
+                      icon: Icons.inventory,
+                      hint: "Select Product",
+                      onChanged: (Product? product) {
+                        setState(() {
+                          selectedProduct = product;
                         });
-                      }
-                    },
-                  ),
-                  SizedBox(height: 16),
-
-                  // Product Dropdown
-                  ProductDropDown(
-                    items: productsData,
-                    label: 'Product',
-                    selectedItem: selectedProduct,
-                    icon: Icons.inventory,
-                    hint: "Select Product",
-                    onChanged: (Product? product) {
-                      setState(() {
-                        selectedProduct = product;
-                      });
-                    },
-                  ),
-
-                  SizedBox(height: 16),
-
-                  CustomTextField(
-                    controller: _quantityController,
-                    label: 'Quantity',
-                    hint: 'Enter quantity',
-                    icon: Icons.numbers,
-                    inputType: TextInputType.number,
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                  ),
-                  SizedBox(height: 16),
-                  if (moveType == MovementType.OUT ||
-                      moveType == MovementType.TRANSFER)
-                    Column(
-                      children: [
-                        LocationDropDownList(
-                          items: locationsData,
-                          label: 'From Location',
-                          selectedItem: selectedFromLocation,
-                          icon: Icons.location_on_outlined,
-                          hint: "Select Source Location",
-                          onChanged: (Location? loc) {
-                            setState(() {
-                              selectedFromLocation = loc;
-                            });
-                          },
-                        ),
-                        SizedBox(height: 16),
-                      ],
+                      },
                     ),
 
-                  if (moveType == MovementType.IN ||
-                      moveType == MovementType.TRANSFER)
-                    Column(
-                      children: [
-                        LocationDropDownList(
-                          items: locationsData,
-                          label: 'Destination Location',
-                          selectedItem: selectedToLocation,
-                          icon: Icons.location_on,
-                          hint: "Select Destination Location",
-                          onChanged: (Location? loc) {
-                            setState(() {
-                              selectedToLocation = loc;
-                            });
-                          },
-                        ),
-                        SizedBox(height: 16),
-                      ],
-                    ),
+                    SizedBox(height: 16),
 
-                  SizedBox(height: 5),
-                  Expanded(
-                    child: CustomTextField(
+                    CustomTextField(
+                      controller: _quantityController,
+                      label: 'Quantity',
+                      hint: 'Enter quantity',
+                      icon: Icons.numbers,
+                      inputType: TextInputType.number,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    ),
+                    SizedBox(height: 16),
+                    if (moveType == MovementType.OUT ||
+                        moveType == MovementType.TRANSFER)
+                      Column(
+                        children: [
+                          LocationDropDownList(
+                            items: locationsData,
+                            label: 'From Location',
+                            selectedItem: selectedFromLocation,
+                            icon: Icons.location_on_outlined,
+                            hint: "Select Source Location",
+                            onChanged: (Location? loc) {
+                              setState(() {
+                                selectedFromLocation = loc;
+                              });
+                            },
+                          ),
+                          SizedBox(height: 16),
+                        ],
+                      ),
+
+                    if (moveType == MovementType.IN ||
+                        moveType == MovementType.TRANSFER)
+                      Column(
+                        children: [
+                          LocationDropDownList(
+                            items: locationsData,
+                            label: 'Destination Location',
+                            selectedItem: selectedToLocation,
+                            icon: Icons.location_on,
+                            hint: "Select Destination Location",
+                            onChanged: (Location? loc) {
+                              setState(() {
+                                selectedToLocation = loc;
+                              });
+                            },
+                          ),
+                          SizedBox(height: 16),
+                        ],
+                      ),
+
+                    SizedBox(height: 5),
+
+                    CustomTextField(
                       controller: notesController,
                       label: 'Notes',
                       hint: 'Add any additional information or remarks...',
                       icon: Icons.notes,
-                      maxLines: 3,
-                    ),
-                  ),
-
-                  SizedBox(height: 5),
-                  if (errorMessage != null)
-                    Text(
-                      errorMessage!,
-                      style: TextStyle(
-                        color: Colors.red.shade700,
-                        fontSize: 14,
-                      ),
+                      maxLines: 2,
                     ),
 
-                  // Save Button
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      CustomButton(
-                        text: 'Save Product Movement',
-                        onPressed: saveProductMovement,
+                    SizedBox(height: 15),
+                    if (errorMessage != null)
+                      Text(
+                        errorMessage!,
+                        style: TextStyle(
+                          color: Colors.red.shade700,
+                          fontSize: 14,
+                        ),
                       ),
-                    ],
-                  ),
-                ],
-              ),
+                    SizedBox(height: 10),
+                    // Save Button
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        CustomButton(
+                          text: 'Save Product Movement',
+                          onPressed: saveProductMovement,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+        ),
       ),
     );
   }

@@ -121,11 +121,14 @@ class ProductMovementService {
       print(response.statusCode);
       if (response.statusCode == 200) {
         Map<String, dynamic> responseData = {};
-    
+       
           final Map<String, dynamic> responseBody = json.decode(response.body);
-          final updatedMovement = ProductMovement.fromJson(responseBody);
+          print('Full Response Body: $responseBody');
         
+         final updatedMovement = ProductMovement.fromJson(responseBody);
+    
         return {'success': true, 'data': updatedMovement};
+        
       } else {
         String errorMessage = 'Failed to update movement';
 
@@ -200,42 +203,4 @@ class ProductMovementService {
     }
   }
 
-  Future<List<ProductBalance>> getBalanceForSpecificProduct(
-      Product product) async {
-    final uri = Uri.parse('$Url/${product.id}');
-    List<ProductBalance> products = [];
-
-    final response = await http.get(
-      uri,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    );
-
-    print(uri);
-
-    print(response.statusCode);
-    if (response.statusCode == 200) {
-      try {
-        if (response.body.isNotEmpty) {
-          final List<dynamic> responseBody = json.decode(response.body);
-          print('Full Response Body: $responseBody');
-
-          products = responseBody
-              .map((item) => ProductBalance.fromJson(item))
-              .toList();
-
-          return products;
-        }
-        return [];
-      } catch (e) {
-        print('Error during response parsing: $e');
-        return [];
-      }
-    } else {
-      final Map<String, dynamic> responseBody = json.decode(response.body);
-      print(responseBody);
-      return [];
-    }
-  }
 }

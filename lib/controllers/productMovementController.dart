@@ -23,10 +23,6 @@ Future<Map<String, dynamic>> deleteMovement(ProductMovement movement) async {
   }
 
 
-  Future<List<ProductBalance>> fetchStockData(Product product) async {
-    return await service.getBalanceForSpecificProduct(product);
-  }
-
 
 
 

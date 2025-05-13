@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:inventory_desktop/screens/Product/EditProduct.dart';
 
+import '../../controllers/productContorller.dart';
 import '../../controllers/productMovementController.dart';
 
 import '../../models/Product.dart';
@@ -21,10 +22,10 @@ class ProductDetails extends StatefulWidget {
 }
 
 class _ProductCardState extends State<ProductDetails> {
-  List<ProductBalance> locations = [];
+  List<ProductBalance> balances = [];
   final ScrollController _scrollController = ScrollController();
-  ProductMovementController productMovementController =
-      ProductMovementController();
+  ProductController productController =
+      ProductController();
 
   @override
   void dispose() {
@@ -44,16 +45,16 @@ class _ProductCardState extends State<ProductDetails> {
 
   Future<void> loadStockData(Product product) async {
     List<ProductBalance> result =
-        await productMovementController.fetchStockData(product);
+        await productController.fetchStockData(product);
     setState(() {
-      locations = result;
+      balances = result;
     });
     load();
   }
 
   void load() {
-    for (ProductBalance location in locations) {
-      counter += location.quantity;
+    for (ProductBalance balance in balances) {
+      counter += balance.quantity;
     }
     setState(() {});
   }
@@ -174,7 +175,7 @@ class _ProductCardState extends State<ProductDetails> {
                           color: Colors.white),
                     ),
                     SizedBox(height: 10),
-                    _buildBasicInfo("CATEGORY", "Electornics"),
+                    _buildBasicInfo("CATEGORY", widget.product.category.name),
                     SizedBox(height: 10),
                     _buildBasicInfo("CODE", widget.product.code),
                     SizedBox(height: 10),
@@ -187,7 +188,7 @@ class _ProductCardState extends State<ProductDetails> {
                     width: 280,
                     height: 350,
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 30),
+                        horizontal: 10, vertical: 30),
                     decoration: BoxDecoration(
                       color: Color(0xFF2A3B44),
                       borderRadius: BorderRadius.circular(10),
@@ -206,9 +207,9 @@ class _ProductCardState extends State<ProductDetails> {
                         SizedBox(height: 25),
                         Expanded(
                           child: Container(
-                            width: 240,
+                            width: 280,
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 10),
+                                horizontal: 8, vertical: 10),
                             decoration: BoxDecoration(
                               color: Color(0xFF0F171A),
                               borderRadius: BorderRadius.circular(10),
@@ -242,9 +243,9 @@ class _ProductCardState extends State<ProductDetails> {
                                     controller: _scrollController,
                                     child: ListView.builder(
                                       controller: _scrollController,
-                                      itemCount: locations.length,
+                                      itemCount: balances.length,
                                       itemBuilder: (context, index) {
-                                        return _buildStock(locations[index]);
+                                        return _buildStock(balances[index]);
                                       },
                                     ),
                                   ),

@@ -1,4 +1,3 @@
-
 class ProductBalance {
   final String name;
   final int quantity;
@@ -14,5 +13,4 @@ class ProductBalance {
       name: json['locationName'],
     );
   }
-
 }

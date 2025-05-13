@@ -74,19 +74,17 @@ class MovementDetails extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-             
-           
-                 CustomButton(
-                      text: 'Edit',
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return EditMovement(movement: movement);
-                          },
-                        );
+                CustomButton(
+                  text: 'Edit',
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return EditMovement(movement: movement);
                       },
-                    ),
+                    );
+                  },
+                ),
               ],
             ),
             SizedBox(height: 20),
@@ -132,59 +130,91 @@ class MovementDetails extends StatelessWidget {
             ),
             SizedBox(height: 25),
 
-            // Product Details
-            _buildSectionTitle("Product Information"),
-            SizedBox(height: 10),
-            _buildDetailRow("Name", movement.product.name),
-            _buildDetailRow("Code", movement.product.code),
-            _buildDetailRow("Category", movement.product.category.name),
-            _buildDetailRow("Quantity", movement.quantity.toString()),
-            SizedBox(height: 25),
-
-            // Location Details
-            _buildSectionTitle("Location Information"),
-            SizedBox(height: 10),
-            if (movement.fromLocation != null)
-              _buildDetailRow("From",
-                  "${movement.fromLocation!.name}, ${movement.fromLocation!.city}"),
-            if (movement.toLocation != null)
-              _buildDetailRow("To",
-                  "${movement.toLocation!.name}, ${movement.toLocation!.city}"),
-            SizedBox(height: 25),
-
-            // Additional Details
-            _buildSectionTitle("Additional Information"),
-            SizedBox(height: 10),
-            _buildDetailRow("Date",
-                "${movement.timestamp!.day}/${movement.timestamp!.month}/${movement.timestamp!.year}"),
-            _buildDetailRow("Time",
-                "${movement.timestamp!.hour}:${movement.timestamp!.minute.toString().padLeft(2, '0')}"),
-
-            // Notes
-            SizedBox(height: 15),
-            Text(
-              "Notes:",
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            ),
-            SizedBox(height: 5),
-           Container(
-                padding: EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: Color(0xFF1A262D),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Text(
-                  movement.notes!,
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey[300],
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildSectionTitle("Product Information"),
+                      SizedBox(height: 10),
+                      _buildDetailRow("Name", movement.product.name),
+                      _buildDetailRow("Code", movement.product.code),
+                      _buildDetailRow(
+                          "Category", movement.product.category.name),
+                      _buildDetailRow("Quantity", movement.quantity.toString()),
+                      SizedBox(height: 25),
+                    ],
                   ),
                 ),
-              
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildSectionTitle("Location Information"),
+                      SizedBox(height: 10),
+                      if (movement.fromLocation != null)
+                        _buildDetailRow("From",
+                            "${movement.fromLocation!.name}, ${movement.fromLocation!.city}"),
+                      if (movement.toLocation != null)
+                        _buildDetailRow("To",
+                            "${movement.toLocation!.name}, ${movement.toLocation!.city}"),
+                      SizedBox(height: 25),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Additional Details
+                      _buildSectionTitle("Additional Information"),
+                      SizedBox(height: 10),
+                      _buildDetailRow("Date",
+                          "${movement.timestamp!.day}/${movement.timestamp!.month}/${movement.timestamp!.year}"),
+                      _buildDetailRow("Time",
+                          "${movement.timestamp!.hour}:${movement.timestamp!.minute.toString().padLeft(2, '0')}"),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Notes:",
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                      SizedBox(height: 5),
+                     Container(
+  padding: EdgeInsets.all(10),
+  decoration: BoxDecoration(
+    color: Color(0xFF1A262D),
+    borderRadius: BorderRadius.circular(8),
+  ),
+  child: Text(
+    movement.notes?.isNotEmpty == true ? movement.notes! : "No notes",
+    style: TextStyle(
+      fontSize: 14,
+      color: Colors.grey[300],
+    ),
+  ),
+),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ],
         ),

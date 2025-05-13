@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:inventory_desktop/providers/LocationListProvider.dart';
 import 'package:inventory_desktop/providers/ProductsListProvider.dart';
+import 'package:inventory_desktop/providers/dashboardProvider.dart';
 import 'package:provider/provider.dart';
 
 import 'providers/MovementListProvider.dart';
@@ -13,6 +14,7 @@ void main() {
         ChangeNotifierProvider(create: (_) => ProductsListProvider()),
         ChangeNotifierProvider(create: (_) => LocationListProvider()),
         ChangeNotifierProvider(create: (_) => MovementListProvider()),
+        ChangeNotifierProvider(create: (_) => DashboardProvider()),
       ],
       child: const MyApp(),
     ),

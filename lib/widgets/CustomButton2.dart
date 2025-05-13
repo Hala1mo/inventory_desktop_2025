@@ -30,18 +30,18 @@ class _CustomButton2State extends State<CustomButton2> {
           borderRadius: BorderRadius.circular(8),
           side: BorderSide(
             color:  Color(0xFF1CB65D),
-            width: 0.5, // border width
+            width: 0.5, 
           ),
         ),
-        elevation: 0, // No shadow
-        minimumSize: const Size(120, 40), // Set minimum size
+        elevation: 0, 
+        minimumSize: const Size(150, 50),
       ),
       child: Text(
         widget.text,
         style: const TextStyle(
-          fontSize: 14,
+          fontSize: 16,
           fontWeight: FontWeight.w500,
-          color: Color(0xFF1CB65D), // White text
+          color: Color(0xFF1CB65D),
         ),
       ),
     );

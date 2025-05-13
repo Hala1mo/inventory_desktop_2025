@@ -1,5 +1,6 @@
 
 import '../models/Product.dart';
+import '../models/ProductBalance.dart';
 import '../services/productServices.dart';
 
 class ProductController {
@@ -19,5 +20,10 @@ Future<Map<String, dynamic>> updateProduct(Product product) async {
 
 Future<Map<String, dynamic>> deleteProduct(Product product) async {
     return await service.deleteProduct(product);
+  }
+
+  
+     Future<List<ProductBalance>> fetchStockData(Product product) async {
+    return await service.getBalanceForSpecificProduct(product);
   }
 }

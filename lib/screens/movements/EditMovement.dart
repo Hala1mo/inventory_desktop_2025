@@ -52,11 +52,12 @@ class _EditMovementState extends State<EditMovement> {
   @override
   void initState() {
     super.initState();
-    _quantityController = TextEditingController(text: widget.movement.quantity.toString());
+    _quantityController =
+        TextEditingController(text: widget.movement.quantity.toString());
     notesController = TextEditingController(text: widget.movement.notes ?? '');
-    
+
     _selectedMovement = widget.movement.movementType.name;
-  
+
     if (widget.movement.movementType == MovementType.IN) {
       selectedToLocation = widget.movement.toLocation;
       selectedFromLocation = null;
@@ -67,7 +68,7 @@ class _EditMovementState extends State<EditMovement> {
       selectedFromLocation = widget.movement.fromLocation;
       selectedToLocation = widget.movement.toLocation;
     }
-    
+
     loadData();
   }
 
@@ -83,32 +84,29 @@ class _EditMovementState extends State<EditMovement> {
       // Find matching product in loaded products
       Product? matchingProduct;
       if (widget.movement.product.id != null) {
-        matchingProduct = products.firstWhere(
-          (p) => p.id == widget.movement.product.id
-        );
+        matchingProduct =
+            products.firstWhere((p) => p.id == widget.movement.product.id);
       }
 
       // Find matching locations based on movement type
       Location? matchingFromLocation;
       Location? matchingToLocation;
-      
+
       if (selectedFromLocation != null && selectedFromLocation!.id != null) {
-        matchingFromLocation = locations.firstWhere(
-          (loc) => loc.id == selectedFromLocation!.id
-        );
+        matchingFromLocation =
+            locations.firstWhere((loc) => loc.id == selectedFromLocation!.id);
       }
-      
+
       if (selectedToLocation != null && selectedToLocation!.id != null) {
-        matchingToLocation = locations.firstWhere(
-          (loc) => loc.id == selectedToLocation!.id
-        );
+        matchingToLocation =
+            locations.firstWhere((loc) => loc.id == selectedToLocation!.id);
       }
 
       setState(() {
         productsData = products;
         locationsData = locations;
         selectedProduct = matchingProduct ?? widget.movement.product;
-        
+
         if (widget.movement.movementType == MovementType.IN) {
           selectedToLocation = matchingToLocation;
           selectedFromLocation = null;
@@ -237,7 +235,7 @@ class _EditMovementState extends State<EditMovement> {
       );
 
       final result = await movementController.updateMovement(updatedMovement);
-    
+
       if (result['success']) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -246,14 +244,15 @@ class _EditMovementState extends State<EditMovement> {
           ),
         );
 
-            ProductMovement finalMovement = result.containsKey('data') ? 
-                                      result['data'] : updatedMovement;
+        ProductMovement finalMovement =
+            result.containsKey('data') ? result['data'] : updatedMovement;
 
-      MovementListProvider provider =
-          Provider.of<MovementListProvider>(context, listen: false);
-      provider.updateMovement(finalMovement);
+        MovementListProvider provider =
+            Provider.of<MovementListProvider>(context, listen: false);
+        provider.updateMovement(finalMovement);
 
-
+        Navigator.pop(context);
+      
         Navigator.pop(context);
       } else {
         setState(() {
@@ -273,8 +272,7 @@ class _EditMovementState extends State<EditMovement> {
     }
   }
 
-
-    Future<void> deleteMovement(ProductMovement movement) async {
+  Future<void> deleteMovement(ProductMovement movement) async {
     setState(() {
       _isLoading = true;
       errorMessage = null;
@@ -291,8 +289,10 @@ class _EditMovementState extends State<EditMovement> {
           ),
         );
         MovementListProvider provider =
-          Provider.of<MovementListProvider>(context, listen: false);
-          provider.removeMovements(movement);
+            Provider.of<MovementListProvider>(context, listen: false);
+        provider.removeMovements(movement);
+        Navigator.pop(context);
+      
         Navigator.pop(context);
       } else {
         setState(() {
@@ -312,8 +312,6 @@ class _EditMovementState extends State<EditMovement> {
     }
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     // Determine which movement type is selected
@@ -328,7 +326,7 @@ class _EditMovementState extends State<EditMovement> {
       insetPadding: EdgeInsets.all(20),
       child: Container(
         width: MediaQuery.of(context).size.width * 0.5,
-        height: MediaQuery.of(context).size.height * 0.78,
+        height: MediaQuery.of(context).size.height * 0.9,
         padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
         decoration: BoxDecoration(
           color: Color(0xFF0F171A),

@@ -110,15 +110,7 @@ class _ProductCardState extends State<ProductCard> {
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    // if (hasDiscount)
-                    //   Text(
-                    //     '($discountPercentage% Price Drop)',
-                    //     style: TextStyle(
-                    //       fontSize: 14,
-                    //       color: Colors.green[700],
-                    //       fontWeight: FontWeight.w500,
-                    //     ),
-                    //   ),
+              
                   ],
                 ),
 
@@ -130,7 +122,7 @@ class _ProductCardState extends State<ProductCard> {
                   Text(
                     widget.product.description!,
                     style: TextStyle(
-                      fontSize: 12,
+                      fontSize: 14,
                       color: Colors.grey[600],
                     ),
                     maxLines: 2,

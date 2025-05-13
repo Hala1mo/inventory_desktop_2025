@@ -1,43 +1,42 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:inventory_desktop/controllers/LocationController.dart';
+import 'package:inventory_desktop/models/ProductMovement.dart';
+import 'package:inventory_desktop/widgets/MovementCard.dart';
 import 'package:provider/provider.dart';
-
-import '../../models/Location.dart';
-import '../../providers/LocationListProvider.dart';
+import '../../controllers/productMovementController.dart';
+import '../../providers/MovementListProvider.dart';
 import '../../widgets/CustomAppBar.dart';
 import '../../widgets/CustomButton.dart';
-import '../../widgets/LocationCard.dart';
-import '../../widgets/LocationFilters.dart'; // Import the new LocationFilters widget
-import 'AddLocation.dart';
+import '../../widgets/MovementsFilter.dart';
+import 'AddMovement.dart';
 
-class LocationsPage extends StatefulWidget {
-  const LocationsPage({super.key});
+class OrdersPage extends StatefulWidget {
+  const OrdersPage({super.key});
 
   @override
-  State<LocationsPage> createState() => _LocationsPageState();
+  State<OrdersPage> createState() => _OrdersPageState();
 }
 
-class _LocationsPageState extends State<LocationsPage> {
+class _OrdersPageState extends State<OrdersPage> {
   final ScrollController _scrollController = ScrollController();
-  LocationController locationController = LocationController();
+  ProductMovementController movementController = ProductMovementController();
   bool isLoading = true;
 
   Future<void> loadData() async {
     setState(() {
       isLoading = true;
     });
-    
+
     try {
-      List<Location> locations = await locationController.getLocations();
-      Provider.of<LocationListProvider>(context, listen: false)
-          .setLocations(locations);
+      List<ProductMovement> movements = await movementController.getMovements();
+      Provider.of<MovementListProvider>(context, listen: false)
+          .setMovements(movements);
       
       setState(() {
         isLoading = false;
       });
     } catch (e) {
-      print("Error loading locations: $e");
+      print("Error loading movements: $e");
       setState(() {
         isLoading = false;
       });
@@ -54,8 +53,8 @@ class _LocationsPageState extends State<LocationsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFF0F171A),
-      appBar: const CustomAppBar(currentPage: 'location'),
-      body: isLoading 
+      appBar: const CustomAppBar(currentPage: 'order'),
+      body: isLoading
           ? Center(child: CircularProgressIndicator(color: Colors.white))
           : Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
@@ -65,7 +64,7 @@ class _LocationsPageState extends State<LocationsPage> {
                   Row(
                     children: [
                       const Text(
-                        "Locations",
+                        "Product Movements",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 30,
@@ -74,7 +73,7 @@ class _LocationsPageState extends State<LocationsPage> {
                         ),
                       ),
                       SizedBox(width: 5),
-                      Consumer<LocationListProvider>(
+                      Consumer<MovementListProvider>(
                         builder: (context, provider, _) {
                           return Container(
                             margin: const EdgeInsets.symmetric(horizontal: 4),
@@ -95,7 +94,7 @@ class _LocationsPageState extends State<LocationsPage> {
                                 ),
                                 children: [
                                   TextSpan(
-                                    text: " of ${provider.allCount} Locations",
+                                    text: " of ${provider.allCount} Movements",
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 15,
@@ -109,23 +108,22 @@ class _LocationsPageState extends State<LocationsPage> {
                       ),
                       Spacer(),
                       CustomButton(
-                        text: 'Add Location',
+                        text: 'Add Movement',
                         onPressed: () {
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {
-                              return AddLocation();
+                              return AddMovement();
                             },
                           );
                         },
                       ),
                     ],
                   ),
-
                   const SizedBox(height: 16),
-                  Consumer<LocationListProvider>(
+                  Consumer<MovementListProvider>(
                     builder: (context, provider, child) {
-                      final List<Location> displayedLocations =
+                      final List<ProductMovement> displayedMovements =
                           provider.filteredLocations;
 
                       return Expanded(
@@ -134,25 +132,25 @@ class _LocationsPageState extends State<LocationsPage> {
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              // Add the location filters component
-                              LocationFilters(),
+                              MovementFilters(),
                               const SizedBox(width: 16),
                               Expanded(
                                 child: Scrollbar(
                                   controller: _scrollController,
-                                  child: displayedLocations.isEmpty
+                                  child: displayedMovements.isEmpty
                                       ? Center(
                                           child: Text(
-                                            'No Locations found',
+                                            'No movements found',
                                             style: TextStyle(color: Colors.white),
                                           ),
                                         )
                                       : ListView.builder(
                                           controller: _scrollController,
-                                          itemCount: displayedLocations.length,
+                                          itemCount: displayedMovements.length,
                                           itemBuilder: (context, index) {
-                                            return LocationCard(
-                                                location: displayedLocations[index]);
+                                            return MovementCard(
+                                                movement:
+                                                    displayedMovements[index]);
                                           },
                                         ),
                                 ),

@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../screens/DashboardPage.dart';
 import '../screens/Locations/LocationsPage.dart';
-import '../screens/ProductsPage.dart';
-import '../screens/OrdersPage.dart';
-import '../screens/ReportPage.dart';
+import '../screens/Product/ProductsPage.dart';
+import '../screens/movements/OrdersPage.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String currentPage;
@@ -38,18 +37,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           _NavTab(context, title: 'Inventory', icon: Icons.inventory_2, page: 'inventory', currentPage: currentPage),
           _NavTab(context, title: 'Locations', icon: Icons.pin_drop, page: 'location', currentPage: currentPage),
           _NavTab(context, title: 'Order', icon: Icons.receipt_long, page: 'order', currentPage: currentPage),
-          _NavTab(context, title: 'Report', icon: Icons.bar_chart, page: 'report', currentPage: currentPage),
 
           const Spacer(),
 
-          IconButton(
-            icon: const Icon(Icons.settings, color: Colors.white),
-            onPressed: () {},
-          ),
-          IconButton(
-            icon: const Icon(Icons.notifications_none, color: Colors.white),
-            onPressed: () {},
-          ),
           const CircleAvatar(
             radius: 16,
             backgroundColor: Colors.orange,
@@ -87,9 +77,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               break;
             case 'order':
               nextPage = const OrdersPage();
-              break;
-            case 'report':
-              nextPage = const ReportPage();
               break;
             default:
               nextPage = const DashboardPage();

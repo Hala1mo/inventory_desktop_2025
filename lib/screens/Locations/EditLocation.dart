@@ -150,6 +150,8 @@ class _EditLocationState extends State<EditLocation> {
         LocationListProvider provider =
             Provider.of<LocationListProvider>(context, listen: false);
         provider.updateLocation(updatedLocation);
+         Navigator.pop(context);
+      
         Navigator.pop(context);
       } else {
         setState(() {
@@ -188,6 +190,8 @@ class _EditLocationState extends State<EditLocation> {
          LocationListProvider provider =
             Provider.of<LocationListProvider>(context, listen: false);
         provider.removeLocations(location);
+        Navigator.pop(context);
+      
         Navigator.pop(context);
       } else {
         setState(() {

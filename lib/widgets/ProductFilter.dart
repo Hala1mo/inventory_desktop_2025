@@ -35,7 +35,6 @@ class _ProductFiltersState extends State<ProductFilters> {
         Provider.of<ProductsListProvider>(context, listen: false);
     return Container(
       width: 280,
-      height: 600,
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
         color: Color(0xFF1A262D),
@@ -45,11 +44,7 @@ class _ProductFiltersState extends State<ProductFilters> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Product Status
-            _buildSectionTitle('PRODUCT STATUS'),
-            const SizedBox(height: 8),
-            _buildStatusGrid(provider),
-            const SizedBox(height: 20),
+          
 
             buildCustomDropdown(
               icon: Icons.sort,
@@ -418,7 +413,7 @@ class _ProductFiltersState extends State<ProductFilters> {
           maxHeight: 250,
           width: 260,
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(4), color: Color(0xFF2A3B44)),
+              borderRadius: BorderRadius.circular(4), color:  Color(0xFF1A262D),),
           offset: const Offset(0, 0),
           scrollbarTheme: ScrollbarThemeData(
             radius: const Radius.circular(40),
@@ -497,7 +492,7 @@ class _ProductFiltersState extends State<ProductFilters> {
           maxHeight: 250,
           width: 260,
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(4), color: Color(0xFF2A3B44)),
+              borderRadius: BorderRadius.circular(4), color:  Color(0xFF1A262D),),
           offset: const Offset(0, 0),
           scrollbarTheme: ScrollbarThemeData(
             radius: const Radius.circular(40),

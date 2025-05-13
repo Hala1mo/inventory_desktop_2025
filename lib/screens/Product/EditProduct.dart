@@ -134,7 +134,9 @@ class _EditProductState extends State<EditProduct> {
             Provider.of<ProductsListProvider>(context, listen: false);
         provider.updateLocation(updatedProduct);
 
-        Navigator.pop(context, updatedProduct);
+        Navigator.pop(context);
+
+        Navigator.pop(context);
       } else {
         setState(() {
           errorMessage = result['error'];
@@ -160,13 +162,14 @@ class _EditProductState extends State<EditProduct> {
       if (result['success']) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Location deleted successfully'),
+            content: Text('Product deleted successfully'),
             backgroundColor: Colors.green,
           ),
         );
-          ProductsListProvider provider =
+        ProductsListProvider provider =
             Provider.of<ProductsListProvider>(context, listen: false);
         provider.removeProduct(product);
+        Navigator.pop(context);
 
         Navigator.pop(context);
       } else {

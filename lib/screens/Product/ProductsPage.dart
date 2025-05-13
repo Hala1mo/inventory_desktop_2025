@@ -1,32 +1,37 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:inventory_desktop/models/ProductMovement.dart';
-import 'package:inventory_desktop/widgets/MovementCard.dart';
+
+import '../../controllers/productContorller.dart';
+import '../../models/Product.dart';
+import '../../providers/ProductsListProvider.dart';
+import '../../widgets/CustomAppBar.dart';
+import '../../widgets/CustomButton.dart';
+import '../../widgets/ProductCard.dart';
+import '../../widgets/ProductFilter.dart';
+import 'AddProduct.dart';
 import 'package:provider/provider.dart';
-import '../controllers/productMovementController.dart';
-import '../providers/MovementListProvider.dart';
-import '../widgets/CustomAppBar.dart';
-import '../widgets/CustomButton.dart';
-import 'movements/AddMovement.dart';
 
-
-class OrdersPage extends StatefulWidget {
-  const OrdersPage({super.key});
+class ProductsPage extends StatefulWidget {
+  const ProductsPage({super.key});
 
   @override
-  State<OrdersPage> createState() => _ProductsScreenState();
+  State<ProductsPage> createState() => _ProductsScreenState();
 }
 
-class _ProductsScreenState extends State<OrdersPage> {
+class _ProductsScreenState extends State<ProductsPage> {
   final ScrollController _scrollController = ScrollController();
-  ProductMovementController movementController = ProductMovementController();
- 
+  ProductController productController = ProductController();
+  Map<String, dynamic> currentFilters = {
+    'status': 'All',
+    'category': 'All',
+    'price': 'All',
+  };
 
   Future<void> loadData() async {
-    List<ProductMovement> movements = await movementController.getMovements();
-    Provider.of<MovementListProvider>(context, listen: false)
-        .setMovements(movements);
-    print(movements);
+    List<Product> products = await productController.getProducts();
+    Provider.of<ProductsListProvider>(context, listen: false)
+        .setProducts(products);
+    print(products);
   }
 
   @override
@@ -39,7 +44,7 @@ class _ProductsScreenState extends State<OrdersPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Color(0xFF0F171A),
-        appBar: const CustomAppBar(currentPage: 'order'),
+        appBar: const CustomAppBar(currentPage: 'inventory'),
         body: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
             child: Column(
@@ -49,7 +54,7 @@ class _ProductsScreenState extends State<OrdersPage> {
                   // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text(
-                      "Product Movements",
+                      "Product",
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 30,
@@ -60,7 +65,7 @@ class _ProductsScreenState extends State<OrdersPage> {
                     SizedBox(
                       width: 5,
                     ),
-                    Consumer<MovementListProvider>(
+                    Consumer<ProductsListProvider>(
                       builder: (context, provider, _) {
                         return Container(
                           margin: const EdgeInsets.symmetric(horizontal: 4),
@@ -81,7 +86,7 @@ class _ProductsScreenState extends State<OrdersPage> {
                               ),
                               children: [
                                 TextSpan(
-                                  text: "  Total Movements",
+                                  text: "  Total Product",
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 15,
@@ -95,12 +100,12 @@ class _ProductsScreenState extends State<OrdersPage> {
                     ),
                     Spacer(),
                     CustomButton(
-                      text: 'Add Movement',
+                      text: 'Add Product',
                       onPressed: () {
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {
-                            return AddMovement();
+                            return AddProduct();
                           },
                         );
                       },
@@ -108,10 +113,10 @@ class _ProductsScreenState extends State<OrdersPage> {
                   ],
                 ),
                 const SizedBox(height: 16),
-                Consumer<MovementListProvider>(
+                Consumer<ProductsListProvider>(
                   builder: (context, provider, child) {
-                    final List<ProductMovement> displayedProducts =
-                        provider.filteredLocations;
+                    final List<Product> displayedProducts =
+                        provider.filteredProducts; // or apply filters here
 
                     return Expanded(
                       child: Padding(
@@ -119,7 +124,7 @@ class _ProductsScreenState extends State<OrdersPage> {
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                           // ProductFilters(),
+                            ProductFilters(), // your filter widget
                             const SizedBox(width: 16),
                             Expanded(
                               child: Scrollbar(
@@ -135,8 +140,8 @@ class _ProductsScreenState extends State<OrdersPage> {
                                         controller: _scrollController,
                                         itemCount: displayedProducts.length,
                                         itemBuilder: (context, index) {
-                                          return MovementCard(
-                                              movement:
+                                          return ProductCard(
+                                              product:
                                                   displayedProducts[index]);
                                         },
                                       ),
