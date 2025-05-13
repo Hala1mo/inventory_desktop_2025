@@ -3,6 +3,7 @@ import 'package:inventory_desktop/providers/LocationListProvider.dart';
 import 'package:inventory_desktop/providers/ProductsListProvider.dart';
 import 'package:provider/provider.dart';
 
+import 'providers/MovementListProvider.dart';
 import 'screens/DashboardPage.dart';
 
 void main() {
@@ -11,7 +12,7 @@ void main() {
       providers: [
         ChangeNotifierProvider(create: (_) => ProductsListProvider()),
         ChangeNotifierProvider(create: (_) => LocationListProvider()),
-
+        ChangeNotifierProvider(create: (_) => MovementListProvider()),
       ],
       child: const MyApp(),
     ),

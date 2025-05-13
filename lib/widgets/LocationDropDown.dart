@@ -11,6 +11,7 @@ class LocationDropdown extends StatelessWidget {
   final double maxHeight;
   final String hintText;
 
+  ///Country and city DropDrown
   const LocationDropdown({
     Key? key,
     required this.items,
@@ -47,10 +48,10 @@ class LocationDropdown extends StatelessWidget {
           dropdownBuilder: (context, selectedItem) {
             return Text(
               selectedItem ?? '',
-              style: TextStyle(color: Colors.white), // 👈 White selected item text
+              style:
+                  TextStyle(color: Colors.white), // 👈 White selected item text
             );
           },
-
           popupProps: PopupProps<String>.menu(
             itemBuilder: (BuildContext context, String item, bool isSelected,
                 bool isDisabled) {

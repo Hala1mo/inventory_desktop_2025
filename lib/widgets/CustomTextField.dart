@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
@@ -6,9 +7,11 @@ class CustomTextField extends StatelessWidget {
   final String hint;
   final IconData icon;
   final TextInputType? keyboardType;
+  final TextInputType? inputType;
   final String? prefix;
   final int? maxLines;
-
+  final List<TextInputFormatter>? inputFormatters;
+    
   const CustomTextField({
     Key? key,
     required this.controller,
@@ -16,14 +19,19 @@ class CustomTextField extends StatelessWidget {
     required this.hint,
     required this.icon,
     this.keyboardType,
+    this.inputType,
     this.prefix,
     this.maxLines,
+    this.inputFormatters,
   }) : super(key: key);
-
+  
   @override
   Widget build(BuildContext context) {
     final isMultiline = maxLines != null && maxLines! > 1;
-
+    
+    // Use inputType if provided, otherwise fall back to keyboardType
+    final effectiveInputType = inputType ?? keyboardType ?? TextInputType.text;
+    
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -48,7 +56,8 @@ class CustomTextField extends StatelessWidget {
                     TextFormField(
                       maxLines: maxLines,
                       controller: controller,
-                      keyboardType: keyboardType ?? TextInputType.multiline,
+                      keyboardType: isMultiline ? TextInputType.multiline : effectiveInputType,
+                      inputFormatters: inputFormatters,
                       style: TextStyle(color: Colors.white),
                       decoration: InputDecoration(
                         hintText: hint,
@@ -90,7 +99,8 @@ class CustomTextField extends StatelessWidget {
                     Expanded(
                       child: TextFormField(
                         controller: controller,
-                        keyboardType: keyboardType,
+                        keyboardType: effectiveInputType,
+                        inputFormatters: inputFormatters,
                         style: TextStyle(color: Colors.white),
                         decoration: InputDecoration(
                           hintText: hint,

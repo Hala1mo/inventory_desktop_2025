@@ -12,7 +12,6 @@ import '../../widgets/CustomButton2.dart';
 import '../../widgets/CustomTextField.dart';
 import '../../widgets/DropDown.dart';
 
-
 class AddProduct extends StatefulWidget {
   const AddProduct({
     Key? key,
@@ -71,10 +70,8 @@ class _AddProductState extends State<AddProduct> {
 
     ProductCategory category;
     try {
-       category = ProductCategory.values.firstWhere(
-              (e) => e.name.toLowerCase() == _selectedCategory!.toLowerCase()
-
-    );
+      category = ProductCategory.values.firstWhere(
+          (e) => e.name.toLowerCase() == _selectedCategory!.toLowerCase());
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -84,7 +81,6 @@ class _AddProductState extends State<AddProduct> {
       );
       return;
     }
-
 
     print(category);
     // Create Product object
@@ -103,14 +99,16 @@ class _AddProductState extends State<AddProduct> {
     });
 
     try {
-     bool success= await productController.addProduct(newProduct);
+      bool success = await productController.addProduct(newProduct);
 
       if (success) {
         Provider.of<ProductsListProvider>(context, listen: false)
             .addProduct(newProduct);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(isDraft ? 'Product saved as draft' : 'Product saved successfully'),
+            content: Text(isDraft
+                ? 'Product saved as draft'
+                : 'Product saved successfully'),
             backgroundColor: Colors.green,
           ),
         );
@@ -150,129 +148,133 @@ class _AddProductState extends State<AddProduct> {
         ),
         child: _isLoading
             ? Center(
-          child: CircularProgressIndicator(color: Colors.white),
-        )
+                child: CircularProgressIndicator(color: Colors.white),
+              )
             : Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Header
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Add New Product',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Header
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Add New Product',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.close, color: Colors.white),
+                        onPressed: () => Navigator.pop(context),
+                      ),
+                    ],
                   ),
-                ),
-                IconButton(
-                  icon: Icon(Icons.close, color: Colors.white),
-                  onPressed: () => Navigator.pop(context),
-                ),
-              ],
-            ),
-            SizedBox(height: 12),
+                  SizedBox(height: 12),
 
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: CustomTextField(
-                    controller: _nameController,
-                    label: 'Product Name',
-                    hint: 'Enter product name',
-                    icon: Icons.shopping_bag,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: CustomTextField(
+                          controller: _nameController,
+                          label: 'Product Name',
+                          hint: 'Enter product name',
+                          icon: Icons.shopping_bag,
+                        ),
+                      ),
+                      SizedBox(width: 20),
+                      Expanded(
+                        child: CustomTextField(
+                          controller: _codeController,
+                          label: 'Product Code',
+                          hint: 'Enter product code',
+                          icon: Icons.qr_code,
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                SizedBox(width: 20),
-                Expanded(
-                  child: CustomTextField(
-                    controller: _codeController,
-                    label: 'Product Code',
-                    hint: 'Enter product code',
-                    icon: Icons.qr_code,
+                  SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: CustomTextField(
+                          controller: _priceController,
+                          label: 'Price',
+                          hint: 'Enter price',
+                          icon: Icons.attach_money,
+                          keyboardType:
+                              TextInputType.numberWithOptions(decimal: true),
+                          prefix: '\$',
+                        ),
+                      ),
+                      SizedBox(width: 20),
+                      Expanded(
+                        child: DropDown(
+                          label: "Categories",
+                          hint: "Select Category",
+                          icon: Icons.category_outlined,
+                          items: _categories.map((e) => e.label).toList(),
+                          selectedItem: _selectedCategory != null
+                              ? ProductCategory.values
+                                  .firstWhere(
+                                      (e) => e.name == _selectedCategory)
+                                  .label
+                              : null,
+                          onChanged: (String? selectedLabel) {
+                            if (selectedLabel != null) {
+                              final matched = ProductCategory.values.firstWhere(
+                                  (e) =>
+                                      e.label.toLowerCase() ==
+                                      selectedLabel.toLowerCase());
+                              setState(() {
+                                _selectedCategory =
+                                    matched.name; // Store enum.name
+                              });
+                            }
+                          },
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ],
-            ),
-            SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: CustomTextField(
-                    controller: _priceController,
-                    label: 'Price',
-                    hint: 'Enter price',
-                    icon: Icons.attach_money,
-                    keyboardType:
-                    TextInputType.numberWithOptions(decimal: true),
-                    prefix: '\$',
-                  ),
-                ),
-                SizedBox(width: 20),
-                Expanded(
-                  child:DropDown(
-                  label: "Categories",
-                  hint: "Select Category",
-                  icon: Icons.category_outlined,
-                  items: _categories.map((e) => e.label).toList(),
-                  selectedItem: _selectedCategory != null
-                      ? ProductCategory.values
-                      .firstWhere((e) => e.name == _selectedCategory)
-                      .label
-                      : null,
-                  onChanged: (String? selectedLabel) {
-                    if (selectedLabel != null) {
-                      final matched = ProductCategory.values.firstWhere(
-                              (e) => e.label.toLowerCase() == selectedLabel.toLowerCase());
-                      setState(() {
-                        _selectedCategory = matched.name; // Store enum.name
-                      });
-                    }
-                  },
-                ),
-                ),
-              ],
-            ),
 
-            SizedBox(height: 20),
-            CustomTextField(
-              controller: _descriptionController,
-              label: 'Descriptions',
-              hint: 'Enter product description',
-              maxLines: 4,
-              icon: Icons.info,
-            ),
-            SizedBox(height: 20),
-            Expanded(
-              child: CustomTextField(
-                controller: _imageURLController,
-                label: 'Image URL',
-                hint: 'Enter image url',
-                icon: Icons.photo,
-                maxLines: 1,
+                  SizedBox(height: 20),
+                  CustomTextField(
+                    controller: _descriptionController,
+                    label: 'Descriptions',
+                    hint: 'Enter product description',
+                    maxLines: 4,
+                    icon: Icons.info,
+                  ),
+                  SizedBox(height: 20),
+                  Expanded(
+                    child: CustomTextField(
+                      controller: _imageURLController,
+                      label: 'Image URL',
+                      hint: 'Enter image url',
+                      icon: Icons.photo,
+                      maxLines: 1,
+                    ),
+                  ),
+                  SizedBox(height: 5),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      CustomButton2(
+                        text: 'Save as draft',
+                        onPressed: () => saveProduct(isDraft: true),
+                      ),
+                      SizedBox(width: 15),
+                      CustomButton(
+                        text: 'Save Product',
+                        onPressed: () => saveProduct(isDraft: false),
+                      ),
+                    ],
+                  ),
+                ],
               ),
-            ),
-            SizedBox(height: 5),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                CustomButton2(
-                  text: 'Save as draft',
-                  onPressed: () => saveProduct(isDraft: true),
-                ),
-                SizedBox(width: 15),
-                CustomButton(
-                  text: 'Save Product',
-                  onPressed: () => saveProduct(isDraft: false),
-                ),
-              ],
-            ),
-          ],
-        ),
       ),
     );
   }

@@ -52,7 +52,7 @@ class _AddLocationState extends State<AddLocation> {
 
   Future<void> loadCountries() async {
     final String data =
-    await rootBundle.loadString('assets/countries+states+cities.json');
+        await rootBundle.loadString('assets/countries+states+cities.json');
     final List<dynamic> jsonData = json.decode(data);
     setState(() {
       countriesData = jsonData;
@@ -68,7 +68,7 @@ class _AddLocationState extends State<AddLocation> {
       selectedState = null;
 
       final countryData = countriesData.firstWhere(
-            (country) => country['name'] == value,
+        (country) => country['name'] == value,
         orElse: () => null,
       );
 
@@ -161,80 +161,79 @@ class _AddLocationState extends State<AddLocation> {
         ),
         child: _isLoading
             ? Center(
-          child: CircularProgressIndicator(color: Colors.white),
-        )
+                child: CircularProgressIndicator(color: Colors.white),
+              )
             : Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Header
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Add New Location',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Header
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Add New Location',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.close, color: Colors.white),
+                        onPressed: () => Navigator.pop(context),
+                      ),
+                    ],
                   ),
-                ),
-                IconButton(
-                  icon: Icon(Icons.close, color: Colors.white),
-                  onPressed: () => Navigator.pop(context),
-                ),
-              ],
-            ),
-            SizedBox(height: 20),
-            CustomTextField(
-              controller: _nameController,
-              label: 'Location Name',
-              hint: 'Enter location name',
-              icon: Icons.location_city,
-            ),
-            SizedBox(height: 16),
-            LocationDropdown(
-              items: countries,
-              labelText: 'Country',
-              selectedItem: selectedCountry,
-              onChanged: onCountryChanged,
-              showSearchBox: true,
-              maxHeight: 300,
-              hintText: "Search Country...",
-            ),
-            SizedBox(height: 16),
-            LocationDropdown(
-              items: states,
-              labelText: 'State/City',
-              selectedItem: selectedState,
-              onChanged: onStateChanged,
-              showSearchBox: true,
-              maxHeight: 300,
-              hintText: "Search State/City...",
-            ),
-            SizedBox(height: 16),
-            Expanded(
-              child: CustomTextField(
-                controller: _addressController,
-                label: 'Location Address',
-                hint: 'Enter location address',
-                icon: Icons.pin_drop_outlined,
-                maxLines:2,
+                  SizedBox(height: 20),
+                  CustomTextField(
+                    controller: _nameController,
+                    label: 'Location Name',
+                    hint: 'Enter location name',
+                    icon: Icons.location_city,
+                  ),
+                  SizedBox(height: 16),
+                  LocationDropdown(
+                    items: countries,
+                    labelText: 'Country',
+                    selectedItem: selectedCountry,
+                    onChanged: onCountryChanged,
+                    showSearchBox: true,
+                    maxHeight: 300,
+                    hintText: "Search Country...",
+                  ),
+                  SizedBox(height: 16),
+                  LocationDropdown(
+                    items: states,
+                    labelText: 'State/City',
+                    selectedItem: selectedState,
+                    onChanged: onStateChanged,
+                    showSearchBox: true,
+                    maxHeight: 300,
+                    hintText: "Search State/City...",
+                  ),
+                  SizedBox(height: 16),
+                  Expanded(
+                    child: CustomTextField(
+                      controller: _addressController,
+                      label: 'Location Address',
+                      hint: 'Enter location address',
+                      icon: Icons.pin_drop_outlined,
+                      maxLines: 2,
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      CustomButton(
+                        text: 'Save Location',
+                        onPressed: () => saveLocation(),
+                      ),
+                    ],
+                  ),
+                ],
               ),
-            ),
-            SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                CustomButton(
-                  text: 'Save Location',
-                  onPressed: () => saveLocation(),
-                ),
-              ],
-            ),
-          ],
-        ),
       ),
     );
   }
-
 }

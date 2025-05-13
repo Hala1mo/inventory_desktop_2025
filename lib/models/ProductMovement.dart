@@ -1,39 +1,49 @@
 import 'Location.dart';
 import 'Product.dart';
 
-enum MovementType { inMovement, out, transfer }
-enum ShipmentStatus { pending, shipped, delivered, cancelled }
+enum MovementType {
+  IN,
+  OUT,
+  TRANSFER;
+
+  String get label {
+    switch (this) {
+      case MovementType.IN:
+        return 'Incoming';
+      case MovementType.OUT:
+        return 'Outgoing';
+      case MovementType.TRANSFER:
+        return 'TRANSFER';
+    }
+  }
+}
 
 class ProductMovement {
-  final int id;
+  int? id;
   final MovementType movementType;
-  final ShipmentStatus shipmentStatus;
   final int quantity;
-  final String notes;
+  String? notes;
   final Product product;
   final Location? fromLocation;
   final Location? toLocation;
-  final DateTime timestamp;
+  DateTime? timestamp;
 
   ProductMovement({
-    required this.id,
+    this.id,
     required this.movementType,
-    required this.shipmentStatus,
     required this.quantity,
     required this.notes,
     required this.product,
     this.fromLocation,
     this.toLocation,
-    required this.timestamp,
+    this.timestamp,
   });
 
   factory ProductMovement.fromJson(Map<String, dynamic> json) {
     return ProductMovement(
       id: json['id'],
       movementType: MovementType.values.firstWhere(
-              (e) => e.name.toLowerCase() == json['movementType'].toLowerCase()),
-      shipmentStatus: ShipmentStatus.values.firstWhere(
-              (e) => e.name.toLowerCase() == json['shipmentStatus'].toLowerCase()),
+          (e) => e.name.toLowerCase() == json['movementType'].toLowerCase()),
       quantity: json['quantity'],
       notes: json['notes'],
       product: Product.fromJson(json['product']),
@@ -43,19 +53,16 @@ class ProductMovement {
       toLocation: json['toLocation'] != null
           ? Location.fromJson(json['toLocation'])
           : null,
-      timestamp: DateTime.parse(json['timestamp']),
+     timestamp: json['createdAt'] != null ? DateTime.parse(json['createdAt']) : null,
     );
   }
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'movementType': movementType.name,
-    'shipmentStatus': shipmentStatus.name,
-    'quantity': quantity,
-    'notes': notes,
-    'product': product.toJson(),
-    'fromLocation': fromLocation?.toJson(),
-    'toLocation': toLocation?.toJson(),
-    'timestamp': timestamp.toIso8601String(),
-  };
+        'movementType': movementType.name,
+        'quantity': quantity,
+        'notes': notes,
+        'product': product.toJson(),
+        'fromLocation': fromLocation?.toJson(),
+        'toLocation': toLocation?.toJson(),
+      };
 }

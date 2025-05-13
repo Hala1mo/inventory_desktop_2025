@@ -31,7 +31,7 @@ class _EditLocationState extends State<EditLocation> {
   late TextEditingController _addressController;
   final LocationController locationController = LocationController();
   bool _isLoading = false;
-
+  String? errorMessage;
   String? selectedCountry;
   String? selectedState;
   List<String> countries = [];
@@ -48,7 +48,7 @@ class _EditLocationState extends State<EditLocation> {
     _addressController = TextEditingController(text: widget.location.address);
     selectedCountry = widget.location.country;
     selectedState = widget.location.city;
-    
+
     loadCountries();
   }
 
@@ -61,15 +61,14 @@ class _EditLocationState extends State<EditLocation> {
 
   Future<void> loadCountries() async {
     final String data =
-    await rootBundle.loadString('assets/countries+states+cities.json');
+        await rootBundle.loadString('assets/countries+states+cities.json');
     final List<dynamic> jsonData = json.decode(data);
     setState(() {
       countriesData = jsonData;
       countries = jsonData
           .map<String>((country) => country['name'].toString())
           .toList();
-      
-  
+
       if (selectedCountry != null) {
         final countryData = countriesData.firstWhere(
           (country) => country['name'] == selectedCountry,
@@ -91,7 +90,7 @@ class _EditLocationState extends State<EditLocation> {
       selectedState = null;
 
       final countryData = countriesData.firstWhere(
-            (country) => country['name'] == value,
+        (country) => country['name'] == value,
         orElse: () => null,
       );
 
@@ -126,6 +125,7 @@ class _EditLocationState extends State<EditLocation> {
     }
 
     Location updatedLocation = Location(
+       id: widget.location.id,
       name: _nameController.text,
       address: _addressController.text,
       country: selectedCountry!,
@@ -134,30 +134,32 @@ class _EditLocationState extends State<EditLocation> {
 
     setState(() {
       _isLoading = true;
+      errorMessage = null;
     });
 
     try {
-      bool success = await locationController.updateLocation(updatedLocation);
+      final result = await locationController.updateLocation(updatedLocation);
 
-      if (success) {
+      if (result['success']) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Location updated successfully'),
             backgroundColor: Colors.green,
           ),
         );
-
-        Navigator.pop(context, updatedLocation);
+        LocationListProvider provider =
+            Provider.of<LocationListProvider>(context, listen: false);
+        provider.updateLocation(updatedLocation);
+        Navigator.pop(context);
+      } else {
+        setState(() {
+          errorMessage = result['error'];
+        });
       }
     } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Error updating location: ${e.toString()}'),
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
+      setState(() {
+        errorMessage = e.toString();
+      });
     } finally {
       if (mounted) {
         setState(() {
@@ -168,30 +170,34 @@ class _EditLocationState extends State<EditLocation> {
   }
 
   Future<void> deleteLocation(Location location) async {
-    try {
-      bool success = await locationController.deleteLocation(location);
+    setState(() {
+      _isLoading = true;
+      errorMessage = null;
+    });
 
-      if (success) {
-        Provider.of<LocationListProvider>(context, listen: false)
-            .removeLocations(location);
+    try {
+      final result = await locationController.deleteLocation(location);
+
+      if (result['success']) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Location is deleted'),
+            content: Text('Location deleted successfully'),
             backgroundColor: Colors.green,
           ),
         );
-
+         LocationListProvider provider =
+            Provider.of<LocationListProvider>(context, listen: false);
+        provider.removeLocations(location);
         Navigator.pop(context);
+      } else {
+        setState(() {
+          errorMessage = result['error'];
+        });
       }
     } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Error deleting location: ${e.toString()}'),
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
+      setState(() {
+        errorMessage = e.toString();
+      });
     } finally {
       if (mounted) {
         setState(() {
@@ -201,6 +207,7 @@ class _EditLocationState extends State<EditLocation> {
     }
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -208,7 +215,7 @@ class _EditLocationState extends State<EditLocation> {
       insetPadding: EdgeInsets.all(20),
       child: Container(
         width: MediaQuery.of(context).size.width * 0.5,
-        height: MediaQuery.of(context).size.height * 0.7,
+        height: MediaQuery.of(context).size.height * 0.75,
         padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
         decoration: BoxDecoration(
           color: Color(0xFF0F171A),
@@ -276,7 +283,19 @@ class _EditLocationState extends State<EditLocation> {
                       maxLines: 2,
                     ),
                   ),
+
                   SizedBox(height: 20),
+                  if (errorMessage != null)
+                    Text(
+                      errorMessage!,
+                      style: TextStyle(
+                        color: Colors.red.shade700,
+                        fontSize: 14,
+                      ),
+                    ),
+
+                  SizedBox(height: 20),
+
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
@@ -296,5 +315,4 @@ class _EditLocationState extends State<EditLocation> {
       ),
     );
   }
-
 }

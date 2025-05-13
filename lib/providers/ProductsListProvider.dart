@@ -5,7 +5,6 @@ class ProductsListProvider extends ChangeNotifier {
   List<Product> _products = [];
   List<Product> filteredProducts = [];
 
-
   String currentStatus = 'All';
   String currentCategory = 'All Stock';
   double? currentMinPrice;
@@ -28,6 +27,22 @@ class ProductsListProvider extends ChangeNotifier {
   void addProduct(Product product) {
     _products.add(product);
     filterProducts();
+  }
+
+  void updateLocation(Product updatedProduct) {
+    final productIndex = _products.indexWhere((p) => p.id == updatedProduct.id);
+    final filteredIndex =
+        filteredProducts.indexWhere((p) => p.id == updatedProduct.id);
+
+    if (productIndex != -1) {
+      _products[productIndex] = updatedProduct;
+    }
+
+    if (filteredIndex != -1) {
+      filteredProducts[filteredIndex] = updatedProduct;
+    }
+
+    notifyListeners();
   }
 
   List<Product> get all => _products;
@@ -57,7 +72,6 @@ class ProductsListProvider extends ChangeNotifier {
     String? sortAlpha,
     String? sortTime,
   }) {
-
     if (status != null) currentStatus = status;
     if (category != null) currentCategory = category;
     if (minPrice != null) currentMinPrice = minPrice;
@@ -73,7 +87,6 @@ class ProductsListProvider extends ChangeNotifier {
       lastSortType = 'time';
     }
 
-
     filteredProducts = _products.where((product) {
       bool matchesStatus = currentStatus == 'All' ||
           product.status.name.toLowerCase() == currentStatus.toLowerCase();
@@ -88,7 +101,6 @@ class ProductsListProvider extends ChangeNotifier {
           matchesMinPrice &&
           matchesMaxPrice;
     }).toList();
-
 
     if (lastSortType == 'alpha') {
       if (sortAlphabetically == 'A-Z') {

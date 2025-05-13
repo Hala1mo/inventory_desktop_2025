@@ -77,60 +77,115 @@ class LocationService {
     }
   }
 
-  Future<bool> updateLocation(Location location) async {
-    final String jsonData = json.encode(location);
+  Future<Map<String, dynamic>> updateLocation(Location location) async {
+    print("halalalalalalalla");
+    try {
+      final String jsonData = json.encode(location);
+      final uri = Uri.parse('$Url/${location.id}');
 
-    print(jsonData);
-    final uri = Uri.parse(Url);
+      final response = await http.put(
+        uri,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonData,
+      );
 
-    final response = await http.post(
-      uri,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: jsonData,
-    );
+      print('Status Code: ${response.statusCode}');
+     print('Status Code: ${response.body}');
+   
+      if (response.statusCode == 200) {
+        Map<String, dynamic> responseData = {};
 
-    print(response.statusCode);
-    if (response.statusCode == 201) {
-      try {
         if (response.body.isNotEmpty) {
-          final Map<String, dynamic> responseBody = json.decode(response.body);
-          print('Full Response Body: $responseBody');
+          try {
+            final Map<String, dynamic> responseBody =
+                json.decode(response.body);
+            print('Full Response Body: $responseBody');
+            responseData = responseBody;
+          } catch (e) {
+            print('Error parsing success response: $e');
+          }
         }
-        return true;
-      } catch (e) {
-        print('Error during response parsing: $e');
-        return false;
+
+        return {'success': true, 'data': responseData};
+      } else {
+        // Error case
+        String errorMessage = 'Failed to update location';
+
+        if (response.body.isNotEmpty) {
+          try {
+            final Map<String, dynamic> responseBody =
+                json.decode(response.body);
+            if (responseBody.containsKey('message')) {
+              errorMessage = responseBody['message'];
+            }
+            print('Update failed: ${response.body}');
+          } catch (e) {
+            print('Error parsing error response: $e');
+          }
+        }
+
+        return {
+          'success': false,
+          'error': errorMessage,
+        };
       }
-    } else {
-      final Map<String, dynamic> responseBody = json.decode(response.body);
-      print(responseBody);
-      return false;
+    } catch (e) {
+      print('Exception during update: $e');
+      return {
+        'success': false,
+        'error': e.toString(),
+      };
     }
   }
 
-  Future<bool> deleteLocation(Location location) async {
-    final uri = Uri.parse('$Url/${location.id}');
+  Future<Map<String, dynamic>> deleteLocation(Location location) async {
+    try {
+      final uri = Uri.parse('$Url/${location.id}');
 
-    final response = await http.delete(
-      uri,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    );
+      final response = await http.delete(
+        uri,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      );
 
-    print('Status Code: ${response.statusCode}');
-    if (response.statusCode == 200 || response.statusCode == 204) {
-      return true;
-    } else {
-      print('Delete failed: ${response.body}');
-      return false;
+      print('Status Code: ${response.statusCode}');
+      if (response.statusCode == 200 || response.statusCode == 204) {
+        return {'success': true};
+      } else {
+        String errorMessage = 'Failed to delete location';
+
+        if (response.body.isNotEmpty) {
+          try {
+            final Map<String, dynamic> responseBody =
+                json.decode(response.body);
+            if (responseBody.containsKey('message')) {
+              errorMessage = responseBody['message'];
+            }
+            print('Delete failed: ${response.body}');
+          } catch (e) {
+            print('Error parsing response body: $e');
+          }
+        }
+
+        return {
+          'success': false,
+          'error': errorMessage,
+        };
+      }
+    } catch (e) {
+      print('Exception during delete: $e');
+      return {
+        'success': false,
+        'error': e.toString(),
+      };
     }
   }
 
   Future<List<ProductStock>> getProducts(Location location) async {
-      final String getProductsURL ='$Url/${location.id}/inventory';
+    final String getProductsURL = '$Url/${location.id}/inventory';
     List<ProductStock> products = [];
     final uri = Uri.parse(getProductsURL);
 
@@ -141,7 +196,6 @@ class LocationService {
       },
     );
 
-    print(response.statusCode);
     if (response.statusCode == 200) {
       try {
         if (response.body.isNotEmpty) {
@@ -158,14 +212,14 @@ class LocationService {
         print('Error during response parsing: $e');
         return [];
       }
+    } else if (response.statusCode == 400) {
+      final Map<String, dynamic> responseBody = json.decode(response.body);
+      print(responseBody);
+      return [];
     } else {
       final Map<String, dynamic> responseBody = json.decode(response.body);
       print(responseBody);
       return [];
     }
   }
-
-
-
-
 }

@@ -36,7 +36,7 @@ class _EditProductState extends State<EditProduct> {
   final List<ProductCategory> _categories = ProductCategory.values;
   final ProductController productController = ProductController();
   bool _isLoading = false;
-
+  String? errorMessage;
   @override
   void initState() {
     super.initState();
@@ -101,7 +101,6 @@ class _EditProductState extends State<EditProduct> {
       return;
     }
 
-
     Product updatedProduct = Product(
       id: widget.product.id,
       code: _codeController.text,
@@ -116,12 +115,12 @@ class _EditProductState extends State<EditProduct> {
 
     setState(() {
       _isLoading = true;
+      errorMessage = null;
     });
-
     try {
-      bool success = await productController.updateProduct(updatedProduct);
+      final result = await productController.updateProduct(updatedProduct);
 
-      if (success) {
+      if (result['success']) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(isDraft
@@ -131,17 +130,20 @@ class _EditProductState extends State<EditProduct> {
           ),
         );
 
+        ProductsListProvider provider =
+            Provider.of<ProductsListProvider>(context, listen: false);
+        provider.updateLocation(updatedProduct);
+
         Navigator.pop(context, updatedProduct);
+      } else {
+        setState(() {
+          errorMessage = result['error'];
+        });
       }
     } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Error updating product: ${e.toString()}'),
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
+      setState(() {
+        errorMessage = e.toString();
+      });
     } finally {
       if (mounted) {
         setState(() {
@@ -153,29 +155,29 @@ class _EditProductState extends State<EditProduct> {
 
   Future<void> deleteProduct(Product product) async {
     try {
-      bool success = await productController.deleteProduct(product);
+      final result = await productController.deleteProduct(product);
 
-      if (success) {
-        Provider.of<ProductsListProvider>(context, listen: false)
-            .removeProduct(product);
+      if (result['success']) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Product deleted '),
+            content: Text('Location deleted successfully'),
             backgroundColor: Colors.green,
           ),
         );
+          ProductsListProvider provider =
+            Provider.of<ProductsListProvider>(context, listen: false);
+        provider.removeProduct(product);
 
         Navigator.pop(context);
+      } else {
+        setState(() {
+          errorMessage = result['error'];
+        });
       }
     } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Error deleting product: ${e.toString()}'),
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
+      setState(() {
+        errorMessage = e.toString();
+      });
     } finally {
       if (mounted) {
         setState(() {
@@ -310,6 +312,14 @@ class _EditProductState extends State<EditProduct> {
                     ),
                   ),
                   SizedBox(height: 5),
+                  if (errorMessage != null)
+                    Text(
+                      errorMessage!,
+                      style: TextStyle(
+                        color: Colors.red.shade700,
+                        fontSize: 14,
+                      ),
+                    ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
@@ -329,5 +339,4 @@ class _EditProductState extends State<EditProduct> {
       ),
     );
   }
-
 }

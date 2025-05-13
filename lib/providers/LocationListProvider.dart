@@ -8,18 +8,33 @@ class LocationListProvider extends ChangeNotifier {
 
 
 
-  void setLocations(List<Location> products) {
-    _locations = products;
-    filteredLocations = List.from(products);
+  void setLocations(List<Location> locations) {
+    _locations = locations;
+    filteredLocations = List.from(locations);
     notifyListeners();
   }
 
-  void removeLocations(Location product) {
-    _locations.removeWhere((p) => p.id == product.id);
+  void removeLocations(Location location) {
+    _locations.removeWhere((l) => l.id == location.id);
   }
 
-  void addLocation(Location product) {
-    _locations.add(product);
+  void addLocation(Location location) {
+    _locations.add(location);
+  }
+
+    void updateLocation(Location updatedlocation) {
+    final locationIndex = _locations.indexWhere((p) => p.id == updatedlocation.id);
+    final filteredIndex = filteredLocations.indexWhere((p) => p.id == updatedlocation.id);
+    
+    if (locationIndex != -1) {
+      _locations[locationIndex] = updatedlocation;
+    }
+    
+    if (filteredIndex != -1) {
+      filteredLocations[filteredIndex] = updatedlocation;
+    }
+    
+    notifyListeners();
   }
 
   int get allCount => _locations.length;

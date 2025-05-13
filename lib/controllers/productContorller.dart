@@ -13,11 +13,11 @@ class ProductController {
     return await service.getProducts();
   }
 
-  Future <bool> updateProduct(Product product) async {
+Future<Map<String, dynamic>> updateProduct(Product product) async {
     return await service.updateProduct(product);
   }
 
-  Future <bool> deleteProduct(Product product) async {
+Future<Map<String, dynamic>> deleteProduct(Product product) async {
     return await service.deleteProduct(product);
   }
 }

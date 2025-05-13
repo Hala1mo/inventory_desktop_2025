@@ -14,11 +14,11 @@ class LocationController {
     return await service.getLocations();
   }
 
-  Future<bool> updateLocation(Location location) async {
+Future<Map<String, dynamic>> updateLocation(Location location) async {
     return await service.updateLocation(location);
   }
 
-  Future<bool> deleteLocation(Location location) async {
+  Future<Map<String, dynamic>> deleteLocation(Location location) async {
     return await service.deleteLocation(location);
   }
 

@@ -32,14 +32,12 @@ class _ProductCardState extends State<ProductDetails> {
     super.dispose();
   }
 
-  bool isActive = false;
 
   @override
   void initState() {
     super.initState();
 
     loadStockData(widget.product);
-
   }
 
   double counter = 0;
@@ -62,11 +60,6 @@ class _ProductCardState extends State<ProductDetails> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.product.status.name == "active") {
-      isActive = true;
-    } else {
-      isActive = false;
-    }
     return Dialog(
       backgroundColor: Colors.transparent,
       insetPadding: EdgeInsets.all(20),
@@ -92,16 +85,9 @@ class _ProductCardState extends State<ProductDetails> {
                       fontFamily: "Poppins",
                       color: Colors.white),
                 ),
-
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Row(
-                      children: [
-                        _buildSwitchTile(title: 'Active', value: isActive, onChanged: (bool value) {  }),
-                      ],
-                    ),
-                    SizedBox(width: 20),
                     CustomButton(
                       text: 'Edit',
                       onPressed: () {
@@ -337,29 +323,5 @@ Widget _buildStock(ProductBalance productBalance) {
         Divider(thickness: 0.5, color: Color(0xFF6C6B6B)),
       ],
     ),
-  );
-}
-
-Widget _buildSwitchTile({
-  required String title,
-  required bool value,
-  required ValueChanged<bool> onChanged,
-}) {
-  return Row(
-    children: [
-      Text(
-        title,
-        style: TextStyle(fontSize: 15, color: Colors.white),
-      ),
-      SizedBox(width: 10),
-      Switch(
-        value: value,
-        onChanged: onChanged,
-        activeColor: Colors.green,
-        activeTrackColor: Colors.green.withOpacity(0.5),
-        inactiveThumbColor: Colors.white,
-        inactiveTrackColor: Colors.grey[300],
-      ),
-    ],
   );
 }

@@ -22,7 +22,8 @@ class Location {
       country: json['country'],
       city: json['city'],
       address:json['address'],
-      createdAt: DateTime.parse(json['createdAt']),
+     createdAt: json['createdAt'] != null ? DateTime.parse(json['createdAt']) : null,
+
     );
   }
 

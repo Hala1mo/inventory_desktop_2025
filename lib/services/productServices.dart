@@ -76,13 +76,14 @@ class ProductService {
     }
   }
 
-  Future<bool> updateProduct(Product product) async {
+  Future<Map<String, dynamic>> updateProduct(Product product) async {
+    try {
     final String jsonData = json.encode(product);
 
     print(jsonData);
-    final uri = Uri.parse(Url);
+   final uri = Uri.parse('$Url/${product.id}'); 
 
-    final response = await http.post(
+    final response = await http.put(
       uri,
       headers: {
         'Content-Type': 'application/json',
@@ -91,26 +92,51 @@ class ProductService {
     );
 
     print(response.statusCode);
-    if (response.statusCode == 201) {
-      try {
+    if (response.statusCode == 200) {
+        Map<String, dynamic> responseData = {};
         if (response.body.isNotEmpty) {
           final Map<String, dynamic> responseBody = json.decode(response.body);
           print('Full Response Body: $responseBody');
         }
-        return true;
-      } catch (e) {
-        print('Error during response parsing: $e');
-        return false;
-      }
-    } else {
-      final Map<String, dynamic> responseBody = json.decode(response.body);
-      print(responseBody);
-      return false;
+         return {
+        'success': true,
+        'data': responseData
+      };
     }
-  }
+      else {
+      String errorMessage = 'Failed to update product';
+      
+      if (response.body.isNotEmpty) {
+        try {
+          final Map<String, dynamic> responseBody = json.decode(response.body);
+          if (responseBody.containsKey('message')) {
+            errorMessage = responseBody['message'];
+          }
+          print('Update failed: ${response.body}');
+        } catch (e) {
+          print('Error parsing error response: $e');
+        }
+      }
+      
+      return {
+        'success': false,
+        'error': errorMessage,
+      };
+    }
+  }  catch (e) {
+        print('Error during response parsing: $e');
+        return {
+      'success': false,
+      'error': e.toString(),
+    };
+      }
+    } 
+  
 
-  Future<bool> deleteProduct(Product product) async {
-    final uri = Uri.parse('$Url/${product.id}'); // Append the product ID
+  Future<Map<String, dynamic>> deleteProduct(Product product) async {
+    try{
+    final uri = Uri.parse('$Url/${product.id}'); 
+  
 
     final response = await http.delete(
       uri,
@@ -121,11 +147,34 @@ class ProductService {
 
     print('Status Code: ${response.statusCode}');
     if (response.statusCode == 200 || response.statusCode == 204) {
-      return true;
-    } else {
-      print('Delete failed: ${response.body}');
-      return false;
-    }
+      return {'success': true};
+          } else {
+      String errorMessage = 'Failed to delete product';
+      if (response.body.isNotEmpty) {
+        try {
+          final Map<String, dynamic> responseBody = json.decode(response.body);
+          if (responseBody.containsKey('message')) {
+            errorMessage = responseBody['message'];
+          }
+          print('Delete failed: ${response.body}');
+        } catch (e) {
+          print('Error parsing response body: $e');
+        }
+      }
+      
+      return {
+        'success': false,
+        'error': errorMessage,
+      };
+          }
+  } 
+catch (e) {
+    print('Exception during product delete: $e');
+    return {
+      'success': false,
+      'error': e.toString(),
+    };
+  }
   }
 
 }
