@@ -98,7 +98,7 @@ class LocationBarChart extends StatelessWidget {
                               return Padding(
                                 padding: const EdgeInsets.only(top: 8.0),
                                 child: Text(
-                                  displayData[value.toInt()].name.length > 10
+                                  displayData[value.toInt()].name.length > 30
                                       ? '${displayData[value.toInt()].name.substring(0, 8)}...'
                                       : displayData[value.toInt()].name,
                                   style: const TextStyle(

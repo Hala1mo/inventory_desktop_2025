@@ -324,9 +324,10 @@ class _EditMovementState extends State<EditMovement> {
     return Dialog(
       backgroundColor: Colors.transparent,
       insetPadding: EdgeInsets.all(20),
-      child: Container(
+      child:SingleChildScrollView( 
+        child:  Container(
         width: MediaQuery.of(context).size.width * 0.5,
-        height: MediaQuery.of(context).size.height * 0.9,
+        
         padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
         decoration: BoxDecoration(
           color: Color(0xFF0F171A),
@@ -456,15 +457,15 @@ class _EditMovementState extends State<EditMovement> {
                     ),
 
                   SizedBox(height: 5),
-                  Expanded(
-                    child: CustomTextField(
+               
+                    CustomTextField(
                       controller: notesController,
                       label: 'Notes',
                       hint: 'Add any additional information or remarks...',
                       icon: Icons.notes,
                       maxLines: 3,
                     ),
-                  ),
+                  
 
                   SizedBox(height: 5),
                   if (errorMessage != null)
@@ -494,6 +495,9 @@ class _EditMovementState extends State<EditMovement> {
                 ],
               ),
       ),
+      ),
     );
   }
+
+
 }
