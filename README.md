@@ -11,22 +11,6 @@
 
 </div>
 
-<div>
-<p>A sleek desktop Flutter frontend that connects to the Spring Boot Inventory Management System 2025 backend, enabling powerful and responsive inventory control, visualization, and tracking.</p>
-</div>
-
-<div align="center">
-
-### 🔄 Synchronized With Backend
-
-This frontend is fully compatible with the Spring Boot backend documented in the [Inventory Management System 2025 - Backend](https://github.com/Hala1mo/inventory-management-2025) repository.
-
-- Built for real-time inventory operations  
-- Seamless communication via RESTful APIs  
-- Designed for warehouse-scale performance  
-
-</div>
-
 ## 📋 Project Overview
 
 This Flutter desktop application provides a user-friendly interface for managing inventory products, locations, and movements. It integrates with a RESTful Spring Boot backend to deliver real-time inventory data, analytics, and tracking across multiple locations.
