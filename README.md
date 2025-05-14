@@ -54,6 +54,11 @@ The frontend follows a structured **Provider-based architecture**:
 ## 🚀 Features
 
 ### Dashboard
+
+<!-- Dashboard Screenshot -->
+<img src="![image](https://github.com/user-attachments/assets/c04d8f70-94bb-4ce4-b0df-6b66cc2d1ce2)
+" alt="Dashboard" width="800"/>
+
 - Total product & location counts  
 - Inventory movement stats  
 - Product category pie chart  
@@ -61,17 +66,37 @@ The frontend follows a structured **Provider-based architecture**:
 - Refreshable in real-time  
 
 ### Product Management
+
+<!-- Products Screenshot -->
+<img src="screenshots/products.png" alt="Product Management" width="800"/>
+
+<!-- Product Detail Screenshot -->
+<img src="screenshots/product_detail.png" alt="Product Detail" width="800"/>
+
 - Searchable, filterable product list  
 - Add/edit forms with validation  
 - Product detail view  
 - Category and status filtering  
 
 ### Location Management
+
+<!-- Locations Screenshot -->
+<img src="screenshots/locations.png" alt="Location Management" width="800"/>
+
+<!-- Location Detail Screenshot -->
+<img src="screenshots/location_detail.png" alt="Location Detail" width="800"/>
+
 - Searchable list with filters  
 - Location inventory breakdown  
 - Add/edit with country/city fields  
 
 ### Inventory Movements
+
+<img src="screenshots/movements.png" alt="Inventory Movements" width="800"/>
+
+<!-- Movement Detail Screenshot -->
+<img src="screenshots/movement_detail.png" alt="Movement Detail" width="800"/>
+
 - IN / OUT / TRANSFER support  
 - Filter by movement type, product, location  
 - Add/edit with validation and rules  
