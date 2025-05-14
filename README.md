@@ -100,7 +100,7 @@ The frontend follows a structured **Provider-based architecture**:
 ### Instructions
 
 # Clone the repository
-git clone https://github.com/Hala1mo/inventory_backend_2025.git
+git clone https://github.com/Hala1mo/inventory_desktop_2025.git
 
 # Navigate to project directory
 cd inventory-management-flutter
