@@ -1,3 +1,4 @@
+import 'dart:math' as Math;
 import 'package:flutter/material.dart';
 import 'package:inventory_desktop/controllers/ReportsController.dart';
 import '../models/ProductBalanceReport.dart';
@@ -13,23 +14,34 @@ class ReportsPage extends StatefulWidget {
 class _ReportsPageState extends State<ReportsPage> {
   ReportsController controller = ReportsController();
   List<ProductBalanceReport> balances = [];
+  List<ProductBalanceReport> filteredBalances = [];
+  List<ProductBalanceReport> paginatedBalances = []; // For pagination
   final ScrollController _horizontalScrollController = ScrollController();
   final ScrollController _verticalScrollController = ScrollController();
+  
+  // Search controllers
+  final TextEditingController _productSearchController = TextEditingController();
+  final TextEditingController _locationSearchController = TextEditingController();
   
   // Sorting state
   String _sortColumn = 'quantity';
   bool _sortAscending = false;
+  
+  // Pagination state
+  int _currentPage = 0;
+  final int _pageSize = 15; // Fixed to exactly 15 items per page
+  int _totalPages = 0;
 
   Future<void> loadStockData() async {
     List<ProductBalanceReport> result = await controller.getBalanceForAllProducts();
     setState(() {
       balances = result;
-      _sortData();
+      _applyFilters();
     });
   }
 
   void _sortData() {
-    balances.sort((a, b) {
+    filteredBalances.sort((a, b) {
       var aValue;
       var bValue;
       
@@ -58,6 +70,59 @@ class _ReportsPageState extends State<ReportsPage> {
       }
       return 0;
     });
+    
+    _updatePagination();
+  }
+
+  void _applyFilters() {
+    setState(() {
+      String productSearch = _productSearchController.text.toLowerCase();
+      String locationSearch = _locationSearchController.text.toLowerCase();
+      
+      filteredBalances = balances.where((item) {
+        bool matchesProduct = productSearch.isEmpty || 
+                             item.productName.toLowerCase().contains(productSearch);
+        bool matchesLocation = locationSearch.isEmpty || 
+                              item.locationName.toLowerCase().contains(locationSearch);
+        return matchesProduct && matchesLocation;
+      }).toList();
+      
+      _sortData();
+      _currentPage = 0; // Reset to first page when filters change
+      _updatePagination();
+    });
+  }
+  
+  void _updatePagination() {
+    // Calculate total pages
+    _totalPages = (filteredBalances.length / _pageSize).ceil();
+    if (_totalPages == 0) _totalPages = 1; // At least one page even if empty
+    
+    // Ensure current page is valid
+    if (_currentPage >= _totalPages) _currentPage = _totalPages - 1;
+    if (_currentPage < 0) _currentPage = 0;
+    
+    // Get paginated data - ALWAYS use exactly 15 items per page
+    int startIndex = _currentPage * _pageSize;
+    int endIndex = startIndex + _pageSize;
+    if (endIndex > filteredBalances.length) endIndex = filteredBalances.length;
+    
+    if (filteredBalances.isEmpty) {
+      paginatedBalances = [];
+    } else {
+      paginatedBalances = filteredBalances.sublist(startIndex, endIndex);
+    }
+    
+    print('Page size: $_pageSize, showing ${paginatedBalances.length} items');
+  }
+  
+  void _changePage(int page) {
+    setState(() {
+      _currentPage = page;
+      _updatePagination();
+      // Scroll back to top when page changes
+      _verticalScrollController.jumpTo(0);
+    });
   }
 
   void _onSort(String column) {
@@ -75,7 +140,22 @@ class _ReportsPageState extends State<ReportsPage> {
   @override
   void initState() {
     super.initState();
+    // Add listeners to search controllers
+    _productSearchController.addListener(_applyFilters);
+    _locationSearchController.addListener(_applyFilters);
     loadStockData();
+    
+    // Ensure we're using 15 items per page
+    print('Initialized with page size: $_pageSize');
+  }
+
+  @override
+  void dispose() {
+    _productSearchController.dispose();
+    _locationSearchController.dispose();
+    _horizontalScrollController.dispose();
+    _verticalScrollController.dispose();
+    super.dispose();
   }
 
   @override
@@ -88,6 +168,7 @@ class _ReportsPageState extends State<ReportsPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Title row with search fields
             Row(
               children: [
                 const Text(
@@ -99,7 +180,82 @@ class _ReportsPageState extends State<ReportsPage> {
                     fontFamily: 'Poppins',
                   ),
                 ),
-                SizedBox(width: 5),
+                const Spacer(flex: 1),
+                // Product search field
+                Container(
+                  width: 250,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: Color(0xFF1A2327),
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: Colors.grey[800]!),
+                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 12),
+                  margin: EdgeInsets.only(right: 16),
+                  child: Row(
+                    children: [
+                      Icon(Icons.search, color: Colors.grey[400], size: 20),
+                      SizedBox(width: 8),
+                      Expanded(
+                        child: TextField(
+                          controller: _productSearchController,
+                          decoration: InputDecoration(
+                            hintText: 'Search Product',
+                            hintStyle: TextStyle(color: Colors.grey[400]),
+                            border: InputBorder.none,
+                            isDense: true,
+                            contentPadding: EdgeInsets.zero,
+                          ),
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                      if (_productSearchController.text.isNotEmpty)
+                        GestureDetector(
+                          onTap: () {
+                            _productSearchController.clear();
+                          },
+                          child: Icon(Icons.close, color: Colors.grey[400], size: 16),
+                        ),
+                    ],
+                  ),
+                ),
+                // Location search field
+                Container(
+                  width: 250,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: Color(0xFF1A2327),
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: Colors.grey[800]!),
+                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 12),
+                  child: Row(
+                    children: [
+                      Icon(Icons.location_on, color: Colors.grey[400], size: 20),
+                      SizedBox(width: 8),
+                      Expanded(
+                        child: TextField(
+                          controller: _locationSearchController,
+                          decoration: InputDecoration(
+                            hintText: 'Search Location',
+                            hintStyle: TextStyle(color: Colors.grey[400]),
+                            border: InputBorder.none,
+                            isDense: true,
+                            contentPadding: EdgeInsets.zero,
+                          ),
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                      if (_locationSearchController.text.isNotEmpty)
+                        GestureDetector(
+                          onTap: () {
+                            _locationSearchController.clear();
+                          },
+                          child: Icon(Icons.close, color: Colors.grey[400], size: 16),
+                        ),
+                    ],
+                  ),
+                ),
               ],
             ),
             SizedBox(height: 20),
@@ -113,7 +269,6 @@ class _ReportsPageState extends State<ReportsPage> {
                     ? Center(child: CircularProgressIndicator())
                     : LayoutBuilder(
                         builder: (context, constraints) {
-                    
                           double totalWidth = constraints.maxWidth;
                           double quantityWidth = totalWidth * 0.15; 
                           double remainingWidth = totalWidth - quantityWidth;
@@ -155,33 +310,111 @@ class _ReportsPageState extends State<ReportsPage> {
                               
                               // Table body
                               Expanded(
-                                child: Scrollbar(
-                                  controller: _verticalScrollController,
-                                  thumbVisibility: true,
-                                  child: SingleChildScrollView(
-                                    controller: _verticalScrollController,
-                                    child: NotificationListener<ScrollNotification>(
-                                      onNotification: (ScrollNotification scrollInfo) {
-                                        if (scrollInfo is ScrollStartNotification) {
-                                          // Sync horizontal scroll of header and body
-                                          _horizontalScrollController.jumpTo(_horizontalScrollController.offset);
-                                        }
-                                        return false;
-                                      },
-                                      child: SingleChildScrollView(
-                                        controller: _horizontalScrollController,
-                                        scrollDirection: Axis.horizontal,
-                                        child: Column(
-                                          children: balances.map((item) => _buildDataRow(
-                                            item, 
-                                            quantityWidth, 
-                                            productWidth, 
-                                            locationWidth,
-                                          )).toList(),
+                                child: filteredBalances.isEmpty
+                                    ? Center(
+                                        child: Text(
+                                          "No matching products found",
+                                          style: TextStyle(color: Colors.white70),
+                                        ),
+                                      )
+                                    : Scrollbar(
+                                        controller: _verticalScrollController,
+                                        thumbVisibility: true,
+                                        child: SingleChildScrollView(
+                                          controller: _verticalScrollController,
+                                          child: NotificationListener<ScrollNotification>(
+                                            onNotification: (ScrollNotification scrollInfo) {
+                                              if (scrollInfo is ScrollStartNotification) {
+                                                // Sync horizontal scroll of header and body
+                                                _horizontalScrollController.jumpTo(_horizontalScrollController.offset);
+                                              }
+                                              return false;
+                                            },
+                                            child: SingleChildScrollView(
+                                              controller: _horizontalScrollController,
+                                              scrollDirection: Axis.horizontal,
+                                              child: Column(
+                                                children: paginatedBalances.map((item) => _buildDataRow(
+                                                  item, 
+                                                  quantityWidth, 
+                                                  productWidth, 
+                                                  locationWidth,
+                                                )).toList(),
+                                              ),
+                                            ),
+                                          ),
                                         ),
                                       ),
-                                    ),
+                              ),
+                              
+                              // Pagination controls
+                              Container(
+                                height: 50,
+                                decoration: BoxDecoration(
+                                  border: Border(
+                                    top: BorderSide(color: Colors.grey[800]!, width: 1),
                                   ),
+                                ),
+                                padding: EdgeInsets.symmetric(horizontal: 16),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    // Info text
+                                    Text(
+                                      'Showing ${_currentPage * _pageSize + 1} to ${Math.min((_currentPage * _pageSize) + paginatedBalances.length, filteredBalances.length)} of ${filteredBalances.length} entries',
+                                      style: TextStyle(color: Colors.white70),
+                                    ),
+                                    
+                                    // Page navigation
+                                    Row(
+                                      children: [
+                                        // First page button
+                                        IconButton(
+                                          icon: Icon(Icons.first_page),
+                                          onPressed: _currentPage == 0 ? null : () => _changePage(0),
+                                          color: Colors.white70,
+                                          disabledColor: Colors.grey[700],
+                                        ),
+                                        
+                                        // Previous page button
+                                        IconButton(
+                                          icon: Icon(Icons.navigate_before),
+                                          onPressed: _currentPage == 0 ? null : () => _changePage(_currentPage - 1),
+                                          color: Colors.white70,
+                                          disabledColor: Colors.grey[700],
+                                        ),
+                                        
+                                        // Current page indicator
+                                        Container(
+                                          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                                          decoration: BoxDecoration(
+                                            color: Colors.blue[800],
+                                            borderRadius: BorderRadius.circular(4),
+                                          ),
+                                          child: Text(
+                                            '${_currentPage + 1}',
+                                            style: TextStyle(color: Colors.white),
+                                          ),
+                                        ),
+                                        
+                                        // Next page button
+                                        IconButton(
+                                          icon: Icon(Icons.navigate_next),
+                                          onPressed: _currentPage >= _totalPages - 1 ? null : () => _changePage(_currentPage + 1),
+                                          color: Colors.white70,
+                                          disabledColor: Colors.grey[700],
+                                        ),
+                                        
+                                        // Last page button
+                                        IconButton(
+                                          icon: Icon(Icons.last_page),
+                                          onPressed: _currentPage >= _totalPages - 1 ? null : () => _changePage(_totalPages - 1),
+                                          color: Colors.white70,
+                                          disabledColor: Colors.grey[700],
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],
