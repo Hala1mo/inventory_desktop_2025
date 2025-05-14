@@ -11,22 +11,6 @@
 
 </div>
 
-<div align="center">
-<p>A sleek desktop Flutter frontend that connects to the Spring Boot Inventory Management System 2025 backend, enabling powerful and responsive inventory control, visualization, and tracking.</p>
-</div>
-
-<div align="center">
-
-### 🔄 Synchronized With Backend
-
-This frontend is fully compatible with the Spring Boot backend documented in the [Inventory Management System 2025 - Backend](https://github.com/yourusername/inventory-management-2025) repository.
-
-- Built for real-time inventory operations  
-- Seamless communication via RESTful APIs  
-- Designed for warehouse-scale performance  
-
-</div>
-
 ## 📋 Project Overview
 
 This Flutter desktop application provides a user-friendly interface for managing inventory products, locations, and movements. It integrates with a RESTful Spring Boot backend to deliver real-time inventory data, analytics, and tracking across multiple locations.
@@ -65,13 +49,12 @@ The frontend follows a structured **Provider-based architecture**:
 
 ### Product Management
 
-<!-- Products Screenshot -->
 <img src="lib/screenshots/product.JPG" alt="Product Management" width="800"/>
 <img src="lib/screenshots/addProduct.JPG" alt="Product Management" width="800"/>
 <img src="lib/screenshots/editProduct.JPG" alt="Edit Product" width="800"/>
 <img src="lib/screenshots/productDetails.JPG" alt="Product Detail" width="800"/>
 
-- Searchable, filterable product list  
+- filterable product list  
 - Add/edit forms with validation  
 - Product detail view  
 - Category and status filtering  
@@ -83,20 +66,20 @@ The frontend follows a structured **Provider-based architecture**:
 <img src="lib/screenshots/editLocation.JPG" alt="Location Product" width="800"/>
 <img src="lib/screenshots/locationDetails.JPG" alt="Location Detail" width="800"/>
 
-- Searchable list with filters  
+- Location list with filters  
 - Location inventory breakdown  
-- Add/edit with country/city fields  
+- Add/edit/view locations
 
 ### Inventory Movements
 
-<img src="lib/screenshots/movement.JPG" alt="Product Movement Management" width="800"/>
+<img src="lib/screenshots/movements.JPG" alt="Product Movement Management" width="800"/>
 <img src="lib/screenshots/addMovement.JPG" alt="Product Movement Management" width="800"/>
 <img src="lib/screenshots/editMovement.JPG" alt="Edit Product Movement" width="800"/>
 <img src="lib/screenshots/movementDetails.JPG" alt="Product Movement Detail" width="800"/>
 
 - IN / OUT / TRANSFER support  
 - Filter by movement type, product, location  
-- Add/edit with validation and rules  
+- Add/edit/view with validation and rules  
 
 ## 📡 API Integration
 
@@ -117,7 +100,7 @@ The frontend follows a structured **Provider-based architecture**:
 ### Instructions
 
 # Clone the repository
-git clone https://github.com/yourusername/inventory-management-flutter.git
+git clone https://github.com/Hala1mo/inventory_desktop_2025.git
 
 # Navigate to project directory
 cd inventory-management-flutter
@@ -126,7 +109,7 @@ cd inventory-management-flutter
 flutter pub get
 
 # Configure backend URL in AppConstants.dart
-# static const String serverUrl = 'http://localhost:8080';
+# static const String serverUrl = 'http://localhost:8081';
 
 # Run the application
 flutter run -d windows  # For Windows
