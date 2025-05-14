@@ -55,9 +55,7 @@ The frontend follows a structured **Provider-based architecture**:
 
 ### Dashboard
 
-<!-- Dashboard Screenshot -->
-<img src="![image](https://github.com/user-attachments/assets/c04d8f70-94bb-4ce4-b0df-6b66cc2d1ce2)
-" alt="Dashboard" width="800"/>
+<img src="https://github.com/user-attachments/assets/c04d8f70-94bb-4ce4-b0df-6b66cc2d1ce2" alt="Dashboard" width="800"/>
 
 - Total product & location counts  
 - Inventory movement stats  
