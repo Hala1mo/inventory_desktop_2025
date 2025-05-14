@@ -11,7 +11,7 @@
 
 </div>
 
-<div align="center">
+<div">
 <p>A sleek desktop Flutter frontend that connects to the Spring Boot Inventory Management System 2025 backend, enabling powerful and responsive inventory control, visualization, and tracking.</p>
 </div>
 
