@@ -1,211 +1,150 @@
-Inventory Management System
-Overview
-This Inventory Management System is a modern desktop application built with Flutter that connects to a Spring Boot backend API. The system helps businesses track and manage their product inventory across multiple locations, enabling users to monitor product movements, maintain accurate stock levels, and generate inventory reports - all through an intuitive, responsive interface.
+<div align="center">
+📱 Inventory Management System - Flutter Desktop
 Show Image
-Features
-Core Functionality
+Show Image
+Show Image
+Show Image
+<p align="center">
+  <img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png" width="100%" />
+</p>
+</div>
+<div align="center">
+<p>A modern desktop inventory management application built with Flutter that provides an intuitive interface for managing products, locations, and inventory movements with real-time analytics and reporting.</p>
+</div>
+📋 Project Overview
+This Flutter desktop application serves as the frontend for our comprehensive inventory management system. It provides a sleek, responsive interface that connects to our Spring Boot backend API, allowing users to efficiently manage inventory across multiple locations. The application features a modern dark-themed UI with interactive charts, data filtering, and comprehensive inventory tracking capabilities.
+🏗️ Architecture
+The application follows the Provider pattern architecture with:
 
-Product Management: Create, view, update, and delete product information
-Location Management: Manage multiple warehouses or storage locations
-Movement Tracking: Record product transfers between locations, incoming stock, and outgoing inventory
-Real-time Inventory Reports: View current stock levels across all locations
+Views Layer: UI screens and widgets for user interaction
+Providers Layer: State management and business logic
+Controllers Layer: Interface between UI and services
+Services Layer: API communication with backend
+Models Layer: Domain entities and data structures
+Widgets Layer: Reusable UI components
 
+🔧 Tech Stack
+
+Frontend Framework: Flutter 3.19.3
+Programming Language: Dart 3.3.0
+State Management: Provider 6.1.1
+HTTP Client: HTTP 1.1.0
+Charts: FL Chart
+UI Components: Custom-built widgets
+
+🎨 UI Components
+Screen Organization
+┌─────────────────────────────────────────────────────────┐
+│ CustomAppBar                                            │
+├─────────────────────────────────────────────────────────┤
+│                                                         │
+│  ┌─────────────────┐          ┌─────────────────────┐   │
+│  │                 │          │                     │   │
+│  │   Navigation    │          │      Main View      │   │
+│  │     Panel       │          │                     │   │
+│  │                 │          │                     │   │
+│  │                 │          │                     │   │
+│  │                 │          │                     │   │
+│  └─────────────────┘          └─────────────────────┘   │
+│                                                         │
+└─────────────────────────────────────────────────────────┘
+Key UI Components
+
+Dashboard: Interactive statistics cards, pie chart, and bar chart
+Data Tables: Filterable product, location, and movement listings
+Detail Dialogs: Comprehensive information displays
+Form Components: Intuitive data entry with validation
+Filter Panels: Powerful data filtering options
+Charts: Visual representation of inventory metrics
+
+🚀 Key Features
 Dashboard
+FeatureDescriptionStatistics CardsDisplay key metrics with dynamic iconsCategory DistributionPie chart showing product distribution by categoryProduct QuantityBar chart showing quantity by locationQuick ActionsDropdown for common operationsReal-time UpdatesPull-to-refresh functionality
+Product Management
+FeatureDescriptionProduct ListingFilterable table with searchProduct DetailsComprehensive view with stock levelsAdd/Edit ProductForm with validation and image supportCategory FilteringFilter by product categoryStatus TrackingActive/Draft status management
+Location Management
+FeatureDescriptionLocation ListingSearchable table with country/city filtersLocation DetailsView with products and quantitiesAdd/Edit LocationForm with country/city selectionInventory OverviewSee all products at specific locationGeographic FilteringFilter by country or city
+Inventory Movements
+FeatureDescriptionMovement TypesSupport for IN, OUT, and TRANSFER operationsMovement HistoryComplete list with filtering optionsMovement DetailsComprehensive view of transactionAdd/Edit MovementIntuitive form with business rule validationFilter OptionsFilter by product, location, or movement type
+📱 Screen Showcase
+Dashboard
+The dashboard provides an at-a-glance overview of inventory status with:
 
-Summary statistics showing key inventory metrics (total inventory, locations, movements)
-Visual representations of inventory distribution by category
-Product quantity by location visualization using charts
-Quick access to common actions
+Total product count
+Location count
+Movement statistics (in, out, transfer)
+Category distribution pie chart
+Location inventory bar chart
 
-Responsive UI
+Show Image
+Products Screen
+Manage all product information with filtering and search capabilities:
 
-Modern dark-themed interface
-Interactive data tables with filtering capabilities
-Form validation to ensure data integrity
-Clean, intuitive user flows
+List view with essential information
+Quick actions for viewing and editing
+Detailed product view with inventory levels
+Add/edit forms with validation
 
-Technical Implementation
-Architecture
+Show Image
+Locations Screen
+Track all warehouse and storage locations:
 
-Frontend: Flutter desktop application
-Backend: Spring Boot RESTful API
-Database: MySQL
+Location cards with details
+Location filtering by country/city
+Detailed view showing all products at location
+Add/edit location forms with country/city selection
 
-Database Schema
-The application uses the following data model:
+Show Image
+Movements Screen
+Comprehensive inventory movement management:
 
-Product Table
+Movement history with type indicators
+Filtering by movement type, product, location
+Detailed movement view with full transaction info
+Add/edit movement forms with business rule validation
 
-product_id (Primary Key)
-name
-description
-code
-price
-category
-status
-image_url
-created_at
-
-
-Location Table
-
-location_id (Primary Key)
-name
-address
-city
-country
-
-
-ProductMovement Table
-
-movement_id (Primary Key)
-product_id (Foreign Key)
-from_location (Foreign Key, can be NULL)
-to_location (Foreign Key, can be NULL)
-quantity
-timestamp
-notes
-movement_type (IN, OUT, TRANSFER)
-
-
-
-API Endpoints
-The application communicates with the backend through RESTful API endpoints:
-
-Products: /api/products
-Locations: /api/locations
-Product Movements: /api/productMovement
-Reports: /api/reports
-
-Installation and Setup
+Show Image
+🔄 API Integration
+The application seamlessly connects to the Spring Boot backend through RESTful API calls:
+Service ModuleEndpoints UsedProductService/api/products, /api/products/product-balances/{id}LocationService/api/locations, /api/locations/{id}/inventoryProductMovementService/api/productMovementReportsService/api/reports/dashboard-stats, /api/reports/productDistribution
+🛠️ Setup & Installation
 Prerequisites
 
-Flutter (latest stable version)
-Java Development Kit (JDK) 11 or higher
-MySQL 8.0+
-Git
+Flutter SDK 3.0+
+Dart 3.0+
+Desktop environment (Windows, macOS, or Linux)
+Backend API running
 
-Backend Setup
+Configuration
 
 Clone the repository:
-
-bashgit clone https://github.com/yourusername/inventory-management.git
-cd inventory-management/backend
-
-Configure database connection in application.properties:
-
-propertiesspring.datasource.url=jdbc:mysql://localhost:3306/inventory_db
-spring.datasource.username=your_username
-spring.datasource.password=your_password
-
-Build and run the Spring Boot application:
-
-bash./mvnw spring-boot:run
-
-The API will be available at http://localhost:8080
-
-Frontend Setup
-
-Navigate to the frontend directory:
-
-bashcd ../frontend
+git clone https://github.com/yourusername/inventory-management-flutter.git
+cd inventory-management-flutter
 
 Install dependencies:
+flutter pub get
 
-bashflutter pub get
-
-Update the API base URL in lib/AppConstants.dart if needed:
-
-dartstatic const String serverUrl = 'http://localhost:8080';
+Configure API connection in AppConstants.dart:
+dartstatic const String serverUrl = 'http://localhost:8081';
 
 Run the application:
-
-bashflutter run -d windows  # For Windows
+flutter run -d windows  # For Windows
 flutter run -d macos    # For macOS
 flutter run -d linux    # For Linux
-Usage Guide
-Product Management
-Users can add new products with details such as name, code, price, and category.
-Show Image
-Adding a Product:
 
-Navigate to the Products page
-Click "Add Product"
-Fill in the product details (name, code, price, category, description)
-Click "Save Product" or "Save as draft" for incomplete entries
 
-Location Management
-The system allows management of multiple storage locations or warehouses.
-Show Image
-Adding a Location:
+💡 Advanced Features
 
-Navigate to the Locations page
-Click "Add Location"
-Enter location details (name, address, city, country)
-Click "Save Location"
+Provider Architecture: Clean state management with Provider
+Dynamic Filtering: Advanced filtering capabilities for all data views
+Responsive Design: Adapts to different screen sizes
+Error Handling: Robust error handling and user feedback
+Data Validation: Client-side validation before API calls
+Custom Widgets: Reusable UI components for consistent design
 
-Inventory Movements
-Track the movement of products between locations or in/out of the system.
-Show Image
-Recording a Movement:
-
-Navigate to the Movements page
-Click "Add Movement"
-Select movement type (IN, OUT, or TRANSFER)
-Choose product, quantity, and location(s)
-Add optional notes
-Click "Save Product Movement"
-
-Inventory Reports
-View current inventory levels across all locations.
-Show Image
-The system provides comprehensive reporting capabilities:
-
-Stock levels by location
-Product movement history
-Inventory valuation
-Category distribution
-
-Additional Features
-Dashboard Analytics
-The dashboard provides key metrics and visual representation of inventory distribution:
-
-Total products in inventory
-Total locations
-Movement statistics (incoming, outgoing, transfers)
-Product category distribution via pie chart
-Product quantity by location via bar chart
-
-Show Image
-Data Filtering
-All data views include filtering capabilities to quickly find specific information:
-
-Filter products by category or status
-Filter locations by country or city
-Filter movements by type, product, or location
-
-Detailed Views
-Each entity has a detailed view with comprehensive information:
-
-Product Details: Shows current stock levels across locations, basic information, and image
-Location Details: Displays all products stored at the location with quantities
-Movement Details: Provides complete information about each inventory transaction
-
-Future Improvements
-Planned enhancements for future versions:
-
-User authentication and role-based access control
-Barcode/QR code scanning integration
-Mobile application companion
-Advanced reporting and analytics
-Low stock alerts and notifications
-Multi-language support
-
-Architecture
-The application follows a clean architecture pattern:
-
-Models: Data classes representing core business entities
-Services: Handle API communication with the backend
-Controllers: Manage business logic between views and services
-Providers: State management for reactive UI updates
-Widgets: Reusable UI components for consistent interface
+👨‍💻 Author
+Hala Abdel Halim
+<p>Developed with 💻 and ☕ for <strong>ERPMax Solutions</strong><br>
+<em>Flutter Developer specializing in Desktop and Mobile Applications</em></p>
+<img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png" width="100%" />
+</div>
