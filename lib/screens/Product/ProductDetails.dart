@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:inventory_desktop/screens/Product/EditProduct.dart';
 
 import '../../controllers/productContorller.dart';
-import '../../controllers/productMovementController.dart';
 
 import '../../models/Product.dart';
 import '../../models/ProductBalance.dart';
@@ -13,9 +12,9 @@ class ProductDetails extends StatefulWidget {
   final Product product;
 
   const ProductDetails({
-    Key? key,
+    super.key,
     required this.product,
-  }) : super(key: key);
+  });
 
   @override
   _ProductCardState createState() => _ProductCardState();

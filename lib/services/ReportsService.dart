@@ -5,6 +5,8 @@ import 'package:inventory_desktop/models/LocationProductCount.dart';
 
 import '../AppConstants.dart';
 import '../models/DashboardStats.dart';
+import '../models/ProductBalance.dart';
+import '../models/ProductBalanceReport.dart';
 
 class ReportsService {
   final String Url = '${AppConstants.serverUrl}/api/reports';
@@ -93,6 +95,46 @@ Future<DashboardStats> getDashboardStats() async {
     throw Exception('Failed to fetch dashboard stats. Status: ${response.statusCode}');
   }
 }
+
+
+
+ Future<List<ProductBalanceReport>> getBalanceForAllProducts() async {
+    final uri = Uri.parse('$Url/product-balances');
+    List<ProductBalanceReport> productBalance = [];
+
+    final response = await http.get(
+      uri,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    );
+
+    print(uri);
+
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      try {
+        if (response.body.isNotEmpty) {
+          final List<dynamic> responseBody = json.decode(response.body);
+          print('Full Response Body: $responseBody');
+
+          productBalance = responseBody
+              .map((item) => ProductBalanceReport.fromJson(item))
+              .toList();
+
+          return productBalance;
+        }
+        return [];
+      } catch (e) {
+        print('Error during response parsing: $e');
+        return [];
+      }
+    } else {
+      final Map<String, dynamic> responseBody = json.decode(response.body);
+      print(responseBody);
+      return [];
+    }
+  }
 
 
   

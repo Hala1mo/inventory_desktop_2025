@@ -41,6 +41,8 @@ dependencies:
   shimmer: ^3.0.0
   dropdown_search: ^6.0.2
   fl_chart: ^1.0.0
+  data_table_2: ^2.6.0
+  responsive_table: ^0.2.0+2
 
 dev_dependencies:
   flutter_test:
