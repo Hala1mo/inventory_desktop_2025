@@ -56,7 +56,7 @@ The frontend follows a structured **Provider-based architecture**:
 
 - filterable product list  
 - Add/edit forms with validation  
-- Product detail view and provinding Product balance in each location
+- Product detail view and providing the Product balance in each location
 - Category and status filtering  
 
 ### Location Management
