@@ -51,4 +51,88 @@ The frontend follows a structured **Provider-based architecture**:
 - **Visualization:** fl_chart  
 - **UI:** Custom dark-themed responsive layout  
 
-## 🖼️ UI Layout
+## 🚀 Features
+
+### Dashboard
+- Total product & location counts  
+- Inventory movement stats  
+- Product category pie chart  
+- Location inventory bar chart  
+- Refreshable in real-time  
+
+### Product Management
+- Searchable, filterable product list  
+- Add/edit forms with validation  
+- Product detail view  
+- Category and status filtering  
+
+### Location Management
+- Searchable list with filters  
+- Location inventory breakdown  
+- Add/edit with country/city fields  
+
+### Inventory Movements
+- IN / OUT / TRANSFER support  
+- Filter by movement type, product, location  
+- Add/edit with validation and rules  
+
+## 📡 API Integration
+
+| Module                | Endpoints Used                                               |
+|----------------------|--------------------------------------------------------------|
+| ProductService        | `/api/products`, `/api/products/product-balances/{id}`      |
+| LocationService       | `/api/locations`, `/api/locations/{id}/inventory`           |
+| ProductMovementService| `/api/productMovement`                                      |
+| ReportsService        | `/api/reports/dashboard-stats`, `/api/reports/productDistribution` |
+
+## 🛠️ Setup & Installation
+
+### Prerequisites
+- Flutter SDK 3.0+  
+- Dart 3.0+  
+- A running backend (Spring Boot Inventory API)  
+
+### Instructions
+
+# Clone the repository
+git clone https://github.com/yourusername/inventory-management-flutter.git
+
+# Navigate to project directory
+cd inventory-management-flutter
+
+# Install dependencies
+flutter pub get
+
+# Configure backend URL in AppConstants.dart
+# static const String serverUrl = 'http://localhost:8080';
+
+# Run the application
+flutter run -d windows  # For Windows
+flutter run -d macos    # For macOS
+flutter run -d linux    # For Linux
+
+
+
+## 📈 Analytics
+
+* **Real-time dashboard statistics**
+* **Product distribution by category**
+* **Location-wise product quantity**
+* **Product balances by ID/location**
+
+## 💡 Advanced Capabilities
+
+* **Provider Pattern:** For clean state management
+* **Custom Widgets:** Modular, reusable UI components
+* **Error Handling:** With user feedback
+* **Validation:** Form and input constraints
+* **Responsive Design:** Desktop-optimized layouts
+
+## 👩‍💻 Author
+
+### Hala Abdel Halim
+
+<p>Frontend developed with ❤️ using Flutter for <strong>ERPMax Solutions</strong><br>
+<em>Flutter Developer - Specializing in Desktop and Mobile Applications</em></p>
+
+<img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png" width="100%" />
