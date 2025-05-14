@@ -56,7 +56,7 @@ The frontend follows a structured **Provider-based architecture**:
 
 - filterable product list  
 - Add/edit forms with validation  
-- Product detail view  
+- Product detail view and providing the Product balance in each location
 - Category and status filtering  
 
 ### Location Management
@@ -137,7 +137,6 @@ flutter run -d linux    # For Linux
 
 ### Hala Abdel Halim
 
-<p>Frontend developed with ❤️ using Flutter for <strong>ERPMax Solutions</strong><br>
-<em>Flutter Developer - Specializing in Desktop and Mobile Applications</em></p>
+<p>Frontend developed  using Flutter for <strong>ERPMax Solutions</strong><br>
 
 <img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png" width="100%" />
