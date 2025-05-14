@@ -67,6 +67,7 @@ The frontend follows a structured **Provider-based architecture**:
 
 <!-- Products Screenshot -->
 <img src="lib/screenshots/product.JPG" alt="Product Management" width="800"/>
+<img src="lib/screenshots/addProduct.JPG" alt="Product Management" width="800"/>
 <img src="lib/screenshots/editProduct.JPG" alt="Edit Product" width="800"/>
 <img src="screenshots/productDetails.JPG" alt="Product Detail" width="800"/>
 
@@ -77,11 +78,10 @@ The frontend follows a structured **Provider-based architecture**:
 
 ### Location Management
 
-<!-- Locations Screenshot -->
-<img src="screenshots/locations.png" alt="Location Management" width="800"/>
-
-<!-- Location Detail Screenshot -->
-<img src="screenshots/location_detail.png" alt="Location Detail" width="800"/>
+<img src="lib/screenshots/location.JPG" alt="Location Management" width="800"/>
+<img src="lib/screenshots/addLocation.JPG" alt="Location Management" width="800"/>
+<img src="lib/screenshots/editLocation.JPG" alt="Location Product" width="800"/>
+<img src="screenshots/LocationDetails.JPG" alt="Location Detail" width="800"/>
 
 - Searchable list with filters  
 - Location inventory breakdown  
@@ -89,10 +89,10 @@ The frontend follows a structured **Provider-based architecture**:
 
 ### Inventory Movements
 
-<img src="screenshots/movements.png" alt="Inventory Movements" width="800"/>
-
-<!-- Movement Detail Screenshot -->
-<img src="screenshots/movement_detail.png" alt="Movement Detail" width="800"/>
+<img src="lib/screenshots/movement.JPG" alt="Product Movement Management" width="800"/>
+<img src="lib/screenshots/addMovement.JPG" alt="Product Movement Management" width="800"/>
+<img src="lib/screenshots/editMovement.JPG" alt="Edit Product Movement" width="800"/>
+<img src="screenshots/MovementDetails.JPG" alt="Product Movement Detail" width="800"/>
 
 - IN / OUT / TRANSFER support  
 - Filter by movement type, product, location  
