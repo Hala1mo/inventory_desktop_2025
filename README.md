@@ -66,7 +66,7 @@ The frontend follows a structured **Provider-based architecture**:
 ### Product Management
 
 <!-- Products Screenshot -->
-<img src="screenshots/product.JPG" alt="Product Management" width="800"/>
+<img src="lib/screenshots/product.jpg" alt="Product Management" width="800"/>
 
 <!-- Product Detail Screenshot -->
 <img src="screenshots/product_detail.png" alt="Product Detail" width="800"/>
