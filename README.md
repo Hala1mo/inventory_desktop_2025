@@ -1,218 +1,54 @@
-📱 Inventory Management System - Flutter Desktop
+# 📦 Inventory Management System 2025 - Flutter Frontend
 
+<div align="center">
 
+[![Flutter](https://img.shields.io/badge/Flutter-3.19.3-02569B?style=for-the-badge&logo=flutter&logoColor=white)](https://flutter.dev/)
+[![Dart](https://img.shields.io/badge/Dart-3.3.0-0175C2?style=for-the-badge&logo=dart&logoColor=white)](https://dart.dev/)
+[![Provider](https://img.shields.io/badge/Provider-6.1.1-0D8ABC?style=for-the-badge)](https://pub.dev/packages/provider)
+[![FL Chart](https://img.shields.io/badge/FL%20Chart-0.63.0-FFB300?style=for-the-badge)](https://pub.dev/packages/fl_chart)
 
-📋 Project Overview
+<img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png" width="100%" />
 
-A modern desktop inventory management application built with Flutter, offering an intuitive interface for managing products, locations, and inventory movements with real-time analytics and reporting.
+</div>
 
-This app connects to a Spring Boot backend and features a dark-themed, responsive UI, supporting interactive charts, advanced filtering, and detailed tracking.
+<div align="center">
+<p>A sleek desktop Flutter frontend that connects to the Spring Boot Inventory Management System 2025 backend, enabling powerful and responsive inventory control, visualization, and tracking.</p>
+</div>
 
-🏗️ Architecture
+<div align="center">
 
-The application follows a layered architecture using the Provider pattern:
+### 🔄 Synchronized With Backend
 
-Views Layer: UI screens and widgets
+This frontend is fully compatible with the Spring Boot backend documented in the [Inventory Management System 2025 - Backend](https://github.com/yourusername/inventory-management-2025) repository.
 
-Providers Layer: State management & business logic
+- Built for real-time inventory operations  
+- Seamless communication via RESTful APIs  
+- Designed for warehouse-scale performance  
 
-Controllers Layer: Bridges UI with services
+</div>
 
-Services Layer: Backend API communication
+## 📋 Project Overview
 
-Models Layer: Data structures & domain models
+This Flutter desktop application provides a user-friendly interface for managing inventory products, locations, and movements. It integrates with a RESTful Spring Boot backend to deliver real-time inventory data, analytics, and tracking across multiple locations.
 
-Widgets Layer: Reusable UI components
+## 🏗️ Architecture
 
-🔧 Tech Stack
+The frontend follows a structured **Provider-based architecture**:
 
-Frontend: Flutter 3.19.3
+- **Views:** UI screens and widgets  
+- **Providers:** State management logic  
+- **Controllers:** Bridge between UI and services  
+- **Services:** REST API communication  
+- **Models:** Data classes for domain objects  
+- **Widgets:** Reusable UI components  
 
-Language: Dart 3.3.0
+## 🔧 Tech Stack
 
-State Management: Provider 6.1.1
+- **Framework:** Flutter 3.19.3  
+- **Language:** Dart 3.3.0  
+- **State Management:** Provider 6.1.1  
+- **API Communication:** http 1.1.0  
+- **Visualization:** fl_chart  
+- **UI:** Custom dark-themed responsive layout  
 
-HTTP Client: HTTP 1.1.0
-
-Charts: FL Chart
-
-UI Components: Custom widgets
-
-🎨 UI Layout
-
-┌─────────────────────────────────────────────────────────┐
-│ CustomAppBar                                            │
-├─────────────────────────────────────────────────────────┤
-│ ┌─────────────────┐        ┌─────────────────────────┐ │
-│ │ Navigation      │        │        Main View        │ │
-│ │ Panel           │        │                         │ │
-│ └─────────────────┘        └─────────────────────────┘ │
-└─────────────────────────────────────────────────────────┘
-
-Key Components
-
-Dashboard: Metrics cards, pie chart, bar chart
-
-Data Tables: Product/location/movement listings
-
-Detail Dialogs: Detailed info displays
-
-Forms: Validated data input
-
-Filter Panels: Advanced filtering options
-
-Charts: Visual insights
-
-🚀 Features
-
-Dashboard
-
-Feature
-
-Description
-
-Statistics Cards
-
-Key metrics & icons
-
-Category Distribution
-
-Pie chart by product category
-
-Product Quantity
-
-Bar chart by location
-
-Quick Actions
-
-Dropdown for common operations
-
-Real-time Updates
-
-Pull-to-refresh
-
-Product Management
-
-Filterable product listing
-
-Detail view showing stock levels
-
-Add/edit form with validation & image upload
-
-Category & status filtering
-
-Location Management
-
-Searchable list with country/city filters
-
-Detail view showing stock per location
-
-Add/edit form with geographic selection
-
-Inventory Movements
-
-Support for IN, OUT, TRANSFER
-
-Filterable movement history
-
-Detail view with transaction info
-
-Add/edit form with validations
-
-📱 Screen Showcase
-
-Dashboard
-
-Product & location count
-
-Movement stats
-
-Visual charts for distribution and quantity
-
-Products
-
-List & detail views
-
-Quick actions (view/edit)
-
-Add/edit with validation
-
-Locations
-
-Cards with filtering
-
-Stock view per location
-
-Movements
-
-History with indicators
-
-Filters (type, product, location)
-
-Add/edit forms
-
-🔄 API Integration
-
-Service
-
-Endpoints
-
-ProductService
-
-/api/products, /api/products/product-balances/{id}
-
-LocationService
-
-/api/locations, /api/locations/{id}/inventory
-
-ProductMovementService
-
-/api/productMovement
-
-ReportsService
-
-/api/reports/dashboard-stats, /api/reports/productDistribution
-
-🛠️ Setup & Installation
-
-Prerequisites
-
-Flutter SDK 3.0+
-
-Dart SDK 3.0+
-
-Desktop OS (Windows/macOS/Linux)
-
-Backend server running
-
-Steps
-
-git clone https://github.com/yourusername/inventory-management-flutter.git
-cd inventory-management-flutter
-flutter pub get
-
-Edit AppConstants.dart:
-
-static const String serverUrl = 'http://localhost:8081';
-
-Run:
-
-flutter run -d windows  # or macos / linux
-
-💡 Advanced Features
-
-Provider-based state management
-
-Rich filtering across screens
-
-Responsive & adaptive layout
-
-Client-side validation
-
-Custom reusable widgets
-
-Error handling & user feedback
-
-👨‍💻 Author
-
-Hala Abdel HalimDeveloped with 💻 and ☕ for ERPMax SolutionsFlutter Developer | Desktop & Mobile Apps Specialist
+## 🖼️ UI Layout
