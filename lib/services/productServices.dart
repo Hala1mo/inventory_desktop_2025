@@ -9,9 +9,10 @@ import '../models/ProductBalance.dart';
 class ProductService {
   final String Url = '${AppConstants.serverUrl}/api/products';
 
-  Future<bool> createProduct(Product product) async {
+ Future<Map<String, dynamic>> createProduct(Product product) async {
+  
     final String jsonData = json.encode(product);
-
+  try{
     print(jsonData);
     final uri = Uri.parse(Url);
 
@@ -23,24 +24,49 @@ class ProductService {
       body: jsonData,
     );
 
-    print(response.statusCode);
-    if (response.statusCode == 201) {
-      try {
+   print(response.statusCode);
+    if (response.statusCode == 201 || response.statusCode == 200) {
+        Map<String, dynamic> responseData = {};
         if (response.body.isNotEmpty) {
           final Map<String, dynamic> responseBody = json.decode(response.body);
           print('Full Response Body: $responseBody');
         }
-        return true;
-      } catch (e) {
-        print('Error during response parsing: $e');
-        return false;
-      }
-    } else {
-      final Map<String, dynamic> responseBody = json.decode(response.body);
-      print(responseBody);
-      return false;
+         return {
+        'success': true,
+        'data': responseData
+      };
     }
-  }
+      else {
+      String errorMessage = 'Failed to update product';
+      
+      if (response.body.isNotEmpty) {
+        try {
+          final Map<String, dynamic> responseBody = json.decode(response.body);
+          if (responseBody.containsKey('message')) {
+            errorMessage = responseBody['message'];
+          }
+          print('Update failed: ${response.body}');
+        } catch (e) {
+          print('Error parsing error response: $e');
+        }
+      }
+      
+      return {
+        'success': false,
+        'error': errorMessage,
+      };
+    }
+  }  catch (e) {
+        print('Error during response parsing: $e');
+        return {
+      'success': false,
+      'error': e.toString(),
+    };
+      }
+    } 
+  
+
+
 
   Future<List<Product>> getProducts() async {
     List<Product> products = [];

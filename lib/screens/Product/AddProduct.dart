@@ -27,7 +27,7 @@ class _AddProductState extends State<AddProduct> {
   final TextEditingController _codeController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _imageURLController = TextEditingController();
-
+  String? errorMessage;
   String? _selectedCategory;
   final List<ProductCategory> _categories = ProductCategory.values;
   final ProductController productController = ProductController();
@@ -96,12 +96,14 @@ class _AddProductState extends State<AddProduct> {
 
     setState(() {
       _isLoading = true;
+       errorMessage = null;
     });
 
     try {
-      bool success = await productController.addProduct(newProduct);
 
-      if (success) {
+        final result= await productController.addProduct(newProduct);
+
+      if (result['success']) {
         Provider.of<ProductsListProvider>(context, listen: false)
             .addProduct(newProduct);
         ScaffoldMessenger.of(context).showSnackBar(
@@ -115,15 +117,15 @@ class _AddProductState extends State<AddProduct> {
 
         Navigator.pop(context, newProduct);
       }
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Error saving product: ${e.toString()}'),
-            backgroundColor: Colors.red,
-          ),
-        );
+      else {
+        setState(() {
+          errorMessage = result['error'];
+        });
       }
+    } catch (e) {
+      setState(() {
+        errorMessage = e.toString();
+      });
     } finally {
       if (mounted) {
         setState(() {
@@ -132,6 +134,7 @@ class _AddProductState extends State<AddProduct> {
       }
     }
   }
+    
 
   @override
   Widget build(BuildContext context) {
@@ -259,6 +262,14 @@ class _AddProductState extends State<AddProduct> {
                     ),
                   ),
                   SizedBox(height: 5),
+                  if (errorMessage != null)
+                    Text(
+                      errorMessage!,
+                      style: TextStyle(
+                        color: Colors.red.shade700,
+                        fontSize: 14,
+                      ),
+                    ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [

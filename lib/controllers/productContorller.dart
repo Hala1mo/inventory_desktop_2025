@@ -6,7 +6,7 @@ import '../services/productServices.dart';
 class ProductController {
   final ProductService service = ProductService();
 
-  Future<bool> addProduct(Product product) async {
+Future<Map<String, dynamic>> addProduct(Product product) async {
     return await service.createProduct(product);
   }
 

@@ -27,7 +27,7 @@ class _AddLocationState extends State<AddLocation> {
   final TextEditingController _addressController = TextEditingController();
   final LocationController locationController = LocationController();
   bool _isLoading = false;
-
+  String? errorMessage;
   String? selectedCountry;
   String? selectedState;
   List<String> countries = [];
@@ -111,12 +111,13 @@ class _AddLocationState extends State<AddLocation> {
 
     setState(() {
       _isLoading = true;
+      errorMessage=null;
     });
 
     try {
-      bool success = await locationController.addLocation(newLocation);
+      final result = await locationController.addLocation(newLocation);
 
-      if (success) {
+      if (result['success']) {
         Provider.of<LocationListProvider>(context, listen: false)
             .addLocation(newLocation);
         ScaffoldMessenger.of(context).showSnackBar(
@@ -127,16 +128,15 @@ class _AddLocationState extends State<AddLocation> {
         );
 
         Navigator.pop(context, newLocation);
+    } else {
+        setState(() {
+          errorMessage = result['error'];
+        });
       }
     } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Error saving location: ${e.toString()}'),
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
+      setState(() {
+        errorMessage = e.toString();
+      });
     } finally {
       if (mounted) {
         setState(() {
@@ -221,7 +221,15 @@ class _AddLocationState extends State<AddLocation> {
                       maxLines: 2,
                     ),
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 5),
+                    if (errorMessage != null)
+                    Text(
+                      errorMessage!,
+                      style: TextStyle(
+                        color: Colors.red.shade700,
+                        fontSize: 14,
+                      ),
+                    ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [

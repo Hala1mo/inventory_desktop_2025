@@ -6,7 +6,7 @@ import '../services/LocationService.dart';
 class LocationController {
   final LocationService service = LocationService();
 
-  Future<bool> addLocation(Location location) async {
+  Future<Map<String, dynamic>> addLocation(Location location) async {
     return await service.createLocation(location);
   }
 

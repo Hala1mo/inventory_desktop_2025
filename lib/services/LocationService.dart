@@ -9,7 +9,8 @@ import '../models/ProductStock.dart';
 class LocationService {
   final String Url = '${AppConstants.serverUrl}/api/locations';
 
-  Future<bool> createLocation(Location location) async {
+ Future<Map<String, dynamic>> createLocation(Location location) async {
+  try{
     final String jsonData = json.encode(location);
 
     print(jsonData);
@@ -24,23 +25,46 @@ class LocationService {
     );
 
     print(response.statusCode);
-    if (response.statusCode == 201) {
-      try {
+    if (response.statusCode == 201 || response.statusCode == 200) {
+        Map<String, dynamic> responseData = {};
         if (response.body.isNotEmpty) {
           final Map<String, dynamic> responseBody = json.decode(response.body);
           print('Full Response Body: $responseBody');
         }
-        return true;
-      } catch (e) {
-        print('Error during response parsing: $e');
-        return false;
-      }
-    } else {
-      final Map<String, dynamic> responseBody = json.decode(response.body);
-      print(responseBody);
-      return false;
+         return {
+        'success': true,
+        'data': responseData
+      };
     }
-  }
+      else {
+      String errorMessage = 'Failed to update product';
+      
+      if (response.body.isNotEmpty) {
+        try {
+          final Map<String, dynamic> responseBody = json.decode(response.body);
+          if (responseBody.containsKey('message')) {
+            errorMessage = responseBody['message'];
+          }
+          print('Update failed: ${response.body}');
+        } catch (e) {
+          print('Error parsing error response: $e');
+        }
+      }
+      
+      return {
+        'success': false,
+        'error': errorMessage,
+      };
+    }
+  }  catch (e) {
+        print('Error during response parsing: $e');
+        return {
+      'success': false,
+      'error': e.toString(),
+    };
+      }
+    } 
+  
 
   Future<List<Location>> getLocations() async {
     List<Location> locations = [];
