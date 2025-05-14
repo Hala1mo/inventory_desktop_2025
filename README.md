@@ -72,7 +72,7 @@ The frontend follows a structured **Provider-based architecture**:
 
 ### Inventory Movements
 
-<img src="lib/screenshots/movement.JPG" alt="Product Movement Management" width="800"/>
+<img src="lib/screenshots/movements.JPG" alt="Product Movement Management" width="800"/>
 <img src="lib/screenshots/addMovement.JPG" alt="Product Movement Management" width="800"/>
 <img src="lib/screenshots/editMovement.JPG" alt="Edit Product Movement" width="800"/>
 <img src="lib/screenshots/movementDetails.JPG" alt="Product Movement Detail" width="800"/>
