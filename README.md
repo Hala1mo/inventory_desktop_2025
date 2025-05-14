@@ -85,7 +85,7 @@ The frontend follows a structured **Provider-based architecture**:
 
 <img src="lib/screenshots/reports.JPG" alt="Product Movement Management" width="800"/>
 
-- Summary of product balance in all loactions 
+- Summary of product balance in all locations 
 - Search for product, location  
 - Added pagination
 
@@ -96,7 +96,7 @@ The frontend follows a structured **Provider-based architecture**:
 | ProductService        | `/api/products`, `/api/products/product-balances/{id}`      |
 | LocationService       | `/api/locations`, `/api/locations/{id}/inventory`           |
 | ProductMovementService| `/api/productMovement`                                      |
-| ReportsService        | `/api/reports/dashboard-stats`, `/api/reports/productDistribution` |
+| ReportsService        | `/api/reports/dashboard-stats`, `/api/reports/productDistribution`, `/api/reports/product-counts-per-location`, `/api/reports/product-balances` |
 
 ## 🛠️ Setup & Installation
 
