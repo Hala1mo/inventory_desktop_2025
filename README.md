@@ -66,9 +66,8 @@ The frontend follows a structured **Provider-based architecture**:
 ### Product Management
 
 <!-- Products Screenshot -->
-<img src="inventory_desktop_2025/lib/screenshots/product.JPG" alt="Product Management" width="800"/>
-
-<!-- Product Detail Screenshot -->
+<img src="lib/screenshots/product.JPG" alt="Product Management" width="800"/>
+<img src="lib/screenshots/editProduct.JPG" alt="Edit Product" width="800"/>
 <img src="screenshots/productDetails.JPG" alt="Product Detail" width="800"/>
 
 - Searchable, filterable product list  
