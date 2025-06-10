@@ -176,6 +176,7 @@ class _AddMovementState extends State<AddMovement> {
         product: selectedProduct!,
         fromLocation: selectedFromLocation,
         toLocation: selectedToLocation,
+        timestamp: DateTime.now(),
       );
 
       final result = await movementController.addMovement(movementData);
@@ -187,8 +188,14 @@ class _AddMovementState extends State<AddMovement> {
             backgroundColor: Colors.green,
           ),
         );
+
+         ProductMovement addedMovement =
+            result.containsKey('data') ? result['data'] : movementData;
+
+            print(addedMovement.id);
+
         Provider.of<MovementListProvider>(context, listen: false)
-            .addMovements(movementData);
+            .addMovements(addedMovement);
         Navigator.pop(context);
       } else {
         setState(() {

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:inventory_desktop/models/ProductMovement.dart';
-import '../models/Location.dart';
-import '../models/Product.dart';
 
 class MovementListProvider extends ChangeNotifier {
   List<ProductMovement> movements = [];
@@ -47,11 +45,19 @@ class MovementListProvider extends ChangeNotifier {
     return locations.toList();
   }
   
-  void setMovements(List<ProductMovement> products) {
-    movements = products;
-    filteredLocations = List.from(products);
-    notifyListeners();
+ void setMovements(List<ProductMovement> products) {
+  movements = products;
+
+  filteredLocations = List.from(products);
+  
+  if (filteredLocations.isNotEmpty) {
+    filteredLocations.sort((a, b) => 
+      (b.timestamp ?? DateTime(1900)).compareTo(a.timestamp ?? DateTime(1900))
+    );
   }
+  
+  notifyListeners();
+}
   
   void removeMovements(ProductMovement product) {
     movements.removeWhere((p) => p.id == product.id);
@@ -59,11 +65,21 @@ class MovementListProvider extends ChangeNotifier {
     notifyListeners();
   }
   
-  void addMovements(ProductMovement product) {
-    movements.add(product);
-    filteredLocations.add(product);
-    notifyListeners();
+void addMovements(ProductMovement product) {
+  movements.add(product);
+  filteredLocations.add(product);
+
+  if (sortDate == 'Newest') {
+    filteredLocations.sort((a, b) => 
+      (b.timestamp ?? DateTime(1900)).compareTo(a.timestamp ?? DateTime(1900))
+    );
+    movements.sort((a, b) => 
+      (b.timestamp ?? DateTime(1900)).compareTo(a.timestamp ?? DateTime(1900))
+    );
   }
+  
+  notifyListeners();
+}
   
   void updateMovement(ProductMovement updatedMovement) {
     final movementIndex = movements.indexWhere((p) => p.id == updatedMovement.id);

@@ -4,6 +4,7 @@ import '../screens/DashboardPage.dart';
 import '../screens/Locations/LocationsPage.dart';
 import '../screens/Product/ProductsPage.dart';
 import '../screens/ReportsPage.dart';
+import '../screens/ReportsPageStockBalance.dart';
 import '../screens/movements/OrdersPage.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -39,6 +40,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           _NavTab(context, title: 'Locations', icon: Icons.pin_drop, page: 'location', currentPage: currentPage),
           _NavTab(context, title: 'Order', icon: Icons.receipt_long, page: 'order', currentPage: currentPage),
           _NavTab(context, title: 'Reports', icon: Icons.assignment, page: 'report', currentPage: currentPage),
+          _NavTab(context, title: 'Stock Balance', icon: Icons.assignment, page: 'report2', currentPage: currentPage),
           const Spacer(),
 
           const CircleAvatar(
@@ -81,6 +83,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               break;
             case 'report':
               nextPage = const ReportsPage();
+              break;
+
+            case 'report2':
+              nextPage = const ReportsPageStockBalance();
               break;
             default:
               nextPage = const DashboardPage();

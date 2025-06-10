@@ -14,7 +14,7 @@ class LocationController {
     return await service.getLocations();
   }
 
-Future<Map<String, dynamic>> updateLocation(Location location) async {
+  Future<Map<String, dynamic>> updateLocation(Location location) async {
     return await service.updateLocation(location);
   }
 
@@ -22,8 +22,8 @@ Future<Map<String, dynamic>> updateLocation(Location location) async {
     return await service.deleteLocation(location);
   }
 
-
-   Future <List<ProductStock>> getProductsInSpecificLocation(Location location) async {
+  Future<List<ProductStock>> getProductsInSpecificLocation(
+      Location location) async {
     return await service.getProducts(location);
   }
 }

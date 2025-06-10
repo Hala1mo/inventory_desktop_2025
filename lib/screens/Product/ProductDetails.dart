@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:inventory_desktop/screens/Product/EditProduct.dart';
 
@@ -64,7 +64,7 @@ class _ProductCardState extends State<ProductDetails> {
       backgroundColor: Colors.transparent,
       insetPadding: EdgeInsets.all(20),
       child: Container(
-        width: MediaQuery.of(context).size.width * 0.5,
+        width: MediaQuery.of(context).size.width * 0.55,
         height: MediaQuery.of(context).size.height * 0.8,
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
         decoration: BoxDecoration(
@@ -114,7 +114,7 @@ class _ProductCardState extends State<ProductDetails> {
                     ClipRRect(
                       borderRadius: const BorderRadius.all(Radius.circular(10)),
                       child: Container(
-                        width: 440,
+                        width: 470,
                         height: 350,
                         decoration: BoxDecoration(color: Colors.grey[200]),
                         child: widget.product.imageUrl != null

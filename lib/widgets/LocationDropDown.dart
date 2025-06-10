@@ -11,7 +11,7 @@ class LocationDropdown extends StatelessWidget {
   final double maxHeight;
   final String hintText;
 
-  ///Country and city DropDrown
+
   const LocationDropdown({
     Key? key,
     required this.items,
@@ -49,7 +49,7 @@ class LocationDropdown extends StatelessWidget {
             return Text(
               selectedItem ?? '',
               style:
-                  TextStyle(color: Colors.white), // 👈 White selected item text
+                  TextStyle(color: Colors.white), 
             );
           },
           popupProps: PopupProps<String>.menu(
@@ -61,7 +61,7 @@ class LocationDropdown extends StatelessWidget {
                 child: Text(
                   item,
                   style: TextStyle(
-                    color: Colors.white, // ✅ white text
+                    color: Colors.white,
                     fontWeight:
                         isSelected ? FontWeight.bold : FontWeight.normal,
                   ),
@@ -95,19 +95,19 @@ class LocationDropdown extends StatelessWidget {
               decoration: InputDecoration(
                 hintText: hintText,
                 hintStyle: TextStyle(
-                  color: Colors.white, // ✅ white text
+                  color: Colors.white, 
                 ),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(16.0),
-                  borderSide: BorderSide(color: Color(0xFF1A262D)),
+                  borderSide: BorderSide(color: Colors.grey.shade200),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(16.0),
-                  borderSide: BorderSide(color: Color(0xFF1A262D)),
+                  borderSide: BorderSide(color: Colors.grey.shade200),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(16.0),
-                  borderSide: BorderSide(color: Color(0xFF1A262D)),
+                  borderSide: BorderSide(color: Colors.grey.shade200),
                 ),
               ),
             ),

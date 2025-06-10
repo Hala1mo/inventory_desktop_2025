@@ -5,7 +5,6 @@ import 'package:inventory_desktop/models/LocationProductCount.dart';
 
 import '../AppConstants.dart';
 import '../models/DashboardStats.dart';
-import '../models/ProductBalance.dart';
 import '../models/ProductBalanceReport.dart';
 
 class ReportsService {

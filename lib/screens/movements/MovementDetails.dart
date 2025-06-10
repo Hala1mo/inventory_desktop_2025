@@ -48,6 +48,7 @@ class MovementDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("halalalalalal");
     return Dialog(
       backgroundColor: Colors.transparent,
       insetPadding: EdgeInsets.all(20),

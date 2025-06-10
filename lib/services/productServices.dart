@@ -26,15 +26,14 @@ class ProductService {
 
    print(response.statusCode);
     if (response.statusCode == 201 || response.statusCode == 200) {
-        Map<String, dynamic> responseData = {};
-        if (response.body.isNotEmpty) {
+
           final Map<String, dynamic> responseBody = json.decode(response.body);
           print('Full Response Body: $responseBody');
-        }
-         return {
-        'success': true,
-        'data': responseData
-      };
+      
+        
+         final addedProduct = Product.fromJson(responseBody);
+    
+        return {'success': true, 'data': addedProduct};
     }
       else {
       String errorMessage = 'Failed to update product';

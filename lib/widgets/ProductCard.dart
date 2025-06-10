@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import '../models/Product.dart';
 import '../screens/Product/ProductDetails.dart';
 
@@ -90,12 +88,12 @@ class _ProductCardState extends State<ProductCard> {
           ),
           const SizedBox(width: 12),
 
-          // Content area
+    
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Title with discount badge
+               
                 Row(
                   children: [
                     Expanded(
@@ -116,7 +114,7 @@ class _ProductCardState extends State<ProductCard> {
 
                 const SizedBox(height: 4),
 
-                // Description
+             
                 if (widget.product.description != null &&
                     widget.product.description!.isNotEmpty)
                   Text(

@@ -8,7 +8,6 @@ import '../../controllers/productContorller.dart';
 import '../../models/Product.dart';
 import '../../providers/ProductsListProvider.dart';
 import '../../widgets/CustomButton.dart';
-import '../../widgets/CustomButton2.dart';
 import '../../widgets/CustomTextField.dart';
 import '../../widgets/DropDown.dart';
 
@@ -104,8 +103,8 @@ class _AddProductState extends State<AddProduct> {
         final result= await productController.addProduct(newProduct);
 
       if (result['success']) {
-        Provider.of<ProductsListProvider>(context, listen: false)
-            .addProduct(newProduct);
+
+      
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(isDraft
@@ -114,6 +113,12 @@ class _AddProductState extends State<AddProduct> {
             backgroundColor: Colors.green,
           ),
         );
+
+          Product addedProduct =
+            result.containsKey('data') ? result['data'] : newProduct;
+
+         Provider.of<ProductsListProvider>(context, listen: false)
+            .addProduct(addedProduct);
 
         Navigator.pop(context, newProduct);
       }
@@ -273,10 +278,6 @@ class _AddProductState extends State<AddProduct> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      CustomButton2(
-                        text: 'Save as draft',
-                        onPressed: () => saveProduct(isDraft: true),
-                      ),
                       SizedBox(width: 15),
                       CustomButton(
                         text: 'Save Product',

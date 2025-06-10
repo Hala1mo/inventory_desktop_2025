@@ -13,7 +13,7 @@ class CategoryPieChart extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 390,
-      width: 600, // Reduced width from 800 to 600
+      width: 600, 
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color:  Color(0xFF1A262D),
@@ -36,7 +36,7 @@ class CategoryPieChart extends StatelessWidget {
           Expanded(
             child: Row(
               children: [
-                // Pie Chart - reduced flex to make it smaller relative to the legend
+            
                 Expanded(
                   flex: 2,
                   child: PieChart(
@@ -48,7 +48,7 @@ class CategoryPieChart extends StatelessWidget {
                     ),
                   ),
                 ),
-                // Legend - no padding, directly next to the chart
+              
                 Expanded(
                   flex: 1,
                   child: Column(

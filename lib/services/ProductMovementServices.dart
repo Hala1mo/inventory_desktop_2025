@@ -1,12 +1,8 @@
 import 'package:http/http.dart' as http;
 import 'package:inventory_desktop/models/ProductMovement.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 import 'dart:convert';
 import '../AppConstants.dart';
 
-import '../models/Product.dart';
-import '../models/ProductBalance.dart';
 
 class ProductMovementService {
   final String Url = '${AppConstants.serverUrl}/api/productMovement';
@@ -30,11 +26,12 @@ class ProductMovementService {
       print(response.statusCode);
       if (response.statusCode == 201) {
         Map<String, dynamic> responseData = {};
-        if (response.body.isNotEmpty) {
           final Map<String, dynamic> responseBody = json.decode(response.body);
           print('Full Response Body: $responseBody');
-        }
-        return {'success': true, 'data': responseData};
+        
+         final addedMovement = ProductMovement.fromJson(responseBody);
+    
+        return {'success': true, 'data': addedMovement};
       } else {
         String errorMessage = 'Failed to create movement';
         if (response.body.isNotEmpty) {

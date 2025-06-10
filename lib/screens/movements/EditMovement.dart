@@ -87,8 +87,6 @@ class _EditMovementState extends State<EditMovement> {
         matchingProduct =
             products.firstWhere((p) => p.id == widget.movement.product.id);
       }
-
-      // Find matching locations based on movement type
       Location? matchingFromLocation;
       Location? matchingToLocation;
 
@@ -279,6 +277,8 @@ class _EditMovementState extends State<EditMovement> {
     });
 
     try {
+      print("ppdpdpdpdp");
+      print(movement.id);
       final result = await movementController.deleteMovement(movement);
 
       if (result['success']) {

@@ -92,7 +92,7 @@ class _LocationFiltersState extends State<LocationFilters> {
 
       setState(() {
         cities = allCities;
-        selectedCity = 'All'; // Reset city selection when country changes
+        selectedCity = 'All'; 
       });
     } else {
       setState(() {

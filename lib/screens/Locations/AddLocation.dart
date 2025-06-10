@@ -116,10 +116,12 @@ class _AddLocationState extends State<AddLocation> {
 
     try {
       final result = await locationController.addLocation(newLocation);
+       Location addedLocation =
+            result.containsKey('data') ? result['data'] : newLocation;
 
       if (result['success']) {
         Provider.of<LocationListProvider>(context, listen: false)
-            .addLocation(newLocation);
+            .addLocation(addedLocation);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Location saved successfully'),

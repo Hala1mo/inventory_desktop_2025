@@ -47,22 +47,7 @@ class ProductsListProvider extends ChangeNotifier {
 
   List<Product> get all => _products;
 
-  List<Product> get active =>
-      _products.where((p) => p.status == ProductStatus.ACTIVE).toList();
-
-  List<Product> get inactive =>
-      _products.where((p) => p.status == ProductStatus.INACTIVE).toList();
-
-  List<Product> get draft =>
-      _products.where((p) => p.status == ProductStatus.DRAFT).toList();
-
   int get allCount => _products.length;
-
-  int get activeCount => active.length;
-
-  int get inactiveCount => inactive.length;
-
-  int get draftCount => draft.length;
 
   void filterProducts({
     String? status,

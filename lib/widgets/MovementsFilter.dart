@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import '../providers/MovementListProvider.dart';
 
 class MovementFilters extends StatefulWidget {
-  const MovementFilters({Key? key}) : super(key: key);
+  const MovementFilters({super.key});
 
   @override
   State<MovementFilters> createState() => _MovementFiltersState();

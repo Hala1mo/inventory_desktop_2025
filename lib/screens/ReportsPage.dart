@@ -19,17 +19,17 @@ class _ReportsPageState extends State<ReportsPage> {
   final ScrollController _horizontalScrollController = ScrollController();
   final ScrollController _verticalScrollController = ScrollController();
   
-  // Search controllers
+
   final TextEditingController _productSearchController = TextEditingController();
   final TextEditingController _locationSearchController = TextEditingController();
   
-  // Sorting state
+
   String _sortColumn = 'quantity';
   bool _sortAscending = false;
   
-  // Pagination state
+
   int _currentPage = 0;
-  final int _pageSize = 15; // Fixed to exactly 15 items per page
+  final int _pageSize = 15; 
   int _totalPages = 0;
 
   Future<void> loadStockData() async {
@@ -98,11 +98,10 @@ class _ReportsPageState extends State<ReportsPage> {
     _totalPages = (filteredBalances.length / _pageSize).ceil();
     if (_totalPages == 0) _totalPages = 1; // At least one page even if empty
     
-    // Ensure current page is valid
+
     if (_currentPage >= _totalPages) _currentPage = _totalPages - 1;
     if (_currentPage < 0) _currentPage = 0;
-    
-    // Get paginated data - ALWAYS use exactly 15 items per page
+
     int startIndex = _currentPage * _pageSize;
     int endIndex = startIndex + _pageSize;
     if (endIndex > filteredBalances.length) endIndex = filteredBalances.length;
@@ -120,7 +119,6 @@ class _ReportsPageState extends State<ReportsPage> {
     setState(() {
       _currentPage = page;
       _updatePagination();
-      // Scroll back to top when page changes
       _verticalScrollController.jumpTo(0);
     });
   }
@@ -140,12 +138,10 @@ class _ReportsPageState extends State<ReportsPage> {
   @override
   void initState() {
     super.initState();
-    // Add listeners to search controllers
     _productSearchController.addListener(_applyFilters);
     _locationSearchController.addListener(_applyFilters);
     loadStockData();
-    
-    // Ensure we're using 15 items per page
+  
     print('Initialized with page size: $_pageSize');
   }
 
@@ -168,7 +164,7 @@ class _ReportsPageState extends State<ReportsPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Title row with search fields
+     
             Row(
               children: [
                 const Text(
@@ -181,7 +177,7 @@ class _ReportsPageState extends State<ReportsPage> {
                   ),
                 ),
                 const Spacer(flex: 1),
-                // Product search field
+            
                 Container(
                   width: 250,
                   height: 40,
@@ -219,7 +215,7 @@ class _ReportsPageState extends State<ReportsPage> {
                     ],
                   ),
                 ),
-                // Location search field
+          
                 Container(
                   width: 250,
                   height: 40,
@@ -295,13 +291,13 @@ class _ReportsPageState extends State<ReportsPage> {
                                   scrollDirection: Axis.horizontal,
                                   child: Row(
                                     children: [
-                                      // Quantity column header
+                               
                                       _buildHeaderCell('Quantity', 'quantity', quantityWidth, TextAlign.right),
                                       
-                                      // Product column header
+                                  
                                       _buildHeaderCell('Product', 'product', productWidth, TextAlign.left),
                                       
-                                      // Location column header
+                                  
                                       _buildHeaderCell('Location', 'location', locationWidth, TextAlign.left),
                                     ],
                                   ),
@@ -441,7 +437,7 @@ class _ReportsPageState extends State<ReportsPage> {
           ),
         ),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.start, // Always left-align headers
+          mainAxisAlignment: MainAxisAlignment.start, 
           children: [
             Text(
               title,

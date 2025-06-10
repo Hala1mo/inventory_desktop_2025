@@ -15,7 +15,7 @@ class MovementCard extends StatefulWidget {
 }
 
 class _MovementCardState extends State<MovementCard> {
-  // Icon and color based on movement type
+
   IconData _getMovementIcon() {
     switch (widget.movement.movementType) {
       case MovementType.IN:
@@ -55,6 +55,7 @@ class _MovementCardState extends State<MovementCard> {
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: GestureDetector(
         onTap: () {
+          print(widget.movement.timestamp);
           showDialog(
             context: context,
             builder: (BuildContext context) {
@@ -99,7 +100,7 @@ class _MovementCardState extends State<MovementCard> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      // Movement type and product name
+                  
                       Row(
                         children: [
                           Container(
