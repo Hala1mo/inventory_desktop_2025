@@ -39,7 +39,7 @@ The frontend follows a structured **Provider-based architecture**:
 
 ### Dashboard
 
-<img src="https://github.com/user-attachments/assets/c04d8f70-94bb-4ce4-b0df-6b66cc2d1ce2" alt="Dashboard" width="800"/>
+<img src="lib/screenshots/dashboard.JPG" alt="Dashboard" width="800"/>
 
 - Total product & location counts  
 - Inventory movement stats  
@@ -79,7 +79,15 @@ The frontend follows a structured **Provider-based architecture**:
 
 - IN / OUT / TRANSFER support  
 - Filter by movement type, product, location  
-- Add/edit/view with validation and rules  
+- Add/edit/view with validation and rules
+
+### Reports (Product Balance)
+
+<img src="lib/screenshots/reports.JPG" alt="Product Movement Management" width="800"/>
+
+- Summary of product balance in all locations 
+- Search for product, location  
+- Added pagination
 
 ## 📡 API Integration
 
@@ -88,7 +96,7 @@ The frontend follows a structured **Provider-based architecture**:
 | ProductService        | `/api/products`, `/api/products/product-balances/{id}`      |
 | LocationService       | `/api/locations`, `/api/locations/{id}/inventory`           |
 | ProductMovementService| `/api/productMovement`                                      |
-| ReportsService        | `/api/reports/dashboard-stats`, `/api/reports/productDistribution` |
+| ReportsService        | `/api/reports/dashboard-stats`, `/api/reports/productDistribution`, `/api/reports/product-counts-per-location`, `/api/reports/product-balances` |
 
 ## 🛠️ Setup & Installation
 
